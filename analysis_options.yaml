@@ -1,0 +1,9 @@
+include: package:pedantic/analysis_options.yaml
+
+linter:
+  rules:
+    always_specify_types: false
+    omit_local_variable_types: false
+    prefer_double_quotes: false
+    prefer_single_quotes: false
+    unawaited_futures: false

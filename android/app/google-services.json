@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "427466327471",
+    "project_id": "couple-calendar-cc572",
+    "storage_bucket": "couple-calendar-cc572.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427466327471:android:0adb55c78c48c81ca89b5a",
+        "android_client_info": {
+          "package_name": "com.emmett.couple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427466327471-agbg5tt15d72gidftbqa5ir8l8e30e6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-B1yasQavjVfc2NMx9_2J10CZQ4POh-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427466327471-agbg5tt15d72gidftbqa5ir8l8e30e6t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "427466327471-jubds17o0fmdfjedmjoe9vthofelj9gr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.emmett.couple"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
