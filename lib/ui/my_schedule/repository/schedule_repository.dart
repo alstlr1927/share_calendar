@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couple_calendar/api/client_service.dart';
 import 'package:couple_calendar/ui/common/components/logger/couple_logger.dart';
 import 'package:couple_calendar/ui/my_schedule/model/schedule_model.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../main.dart';
@@ -30,25 +29,25 @@ class ScheduleRepository {
     return query.docs.isNotEmpty;
   }
 
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getMyScheduleByDate(
-      DateTime dt) async {
-    final uid =
-        Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
+  // Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getMyScheduleByDate(
+  //     DateTime dt) async {
+  //   final uid =
+  //       Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
 
-    final startTs = Timestamp.fromDate(DateTime(dt.year, dt.month, dt.day));
-    final endTs =
-        Timestamp.fromDate(DateTime(dt.year, dt.month, dt.day, 23, 59, 59));
+  //   final startTs = Timestamp.fromDate(DateTime(dt.year, dt.month, dt.day));
+  //   final endTs =
+  //       Timestamp.fromDate(DateTime(dt.year, dt.month, dt.day, 23, 59, 59));
 
-    QuerySnapshot<Map<String, dynamic>> query = await ClientService()
-        .getUserDb()
-        .doc(uid)
-        .collection("my_schedule")
-        .where("start_date", isLessThanOrEqualTo: endTs)
-        .where("end_date", isGreaterThanOrEqualTo: startTs)
-        .get();
+  //   QuerySnapshot<Map<String, dynamic>> query = await ClientService()
+  //       .getUserDb()
+  //       .doc(uid)
+  //       .collection("my_schedule")
+  //       .where("start_date", isLessThanOrEqualTo: endTs)
+  //       .where("end_date", isGreaterThanOrEqualTo: startTs)
+  //       .get();
 
-    return query.docs;
-  }
+  //   return query.docs;
+  // }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getMyScheduleByYear(
       {required int year}) async {
@@ -59,10 +58,10 @@ class ScheduleRepository {
 
     QuerySnapshot<Map<String, dynamic>> query = await ClientService()
         .getScheduleDb()
-        .where('owner_user_id', isEqualTo: uid)
         .where('is_able', isEqualTo: true)
         .where('start_date', isGreaterThanOrEqualTo: startTs)
         .where('start_date', isLessThanOrEqualTo: endTs)
+        .where('member_ids', arrayContains: uid)
         .orderBy('start_date', descending: false)
         .get();
 
@@ -125,6 +124,7 @@ class ScheduleRepository {
     required DateTime endDate,
     required ScheduleTheme theme,
     required String location,
+    List<String> memberIds = const [],
   }) async {
     final uid =
         Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
@@ -139,6 +139,7 @@ class ScheduleRepository {
       'type': 'NORMAL',
       'member_ids': [
         uid,
+        ...memberIds,
       ],
       'location': location,
       'start_date': Timestamp.fromDate(startDate),

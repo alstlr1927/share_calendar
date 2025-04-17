@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couple_calendar/api/client_service.dart';
 import 'package:couple_calendar/main.dart';
 import 'package:couple_calendar/ui/auth/provider/user_provider.dart';

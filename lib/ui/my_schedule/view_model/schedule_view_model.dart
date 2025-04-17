@@ -1,56 +1,84 @@
-import 'package:couple_calendar/ui/my_schedule/model/schedule_model.dart';
 import 'package:couple_calendar/ui/my_schedule/widgets/day_cell_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../util/couple_util.dart';
 import '../../common/provider/schedule_provider.dart';
 import '../widgets/calendar_month_widget.dart';
 
 class ScheduleViewModel extends ChangeNotifier {
+  static const int _baseYear = 1970;
   State state;
 
   final PageController pageController = PageController();
 
-  int _curYear = 2025;
+  int _curYear = DateTime.now().year;
   int get curYear => _curYear;
-  void setCurYear(int year) {
-    _curYear = year;
-  }
+  void setCurYear(int year) => _curYear = year;
 
-  int _curMonth = 3;
+  int _curMonth = DateTime.now().month;
   int get curMonth => _curMonth;
-  void setCurMonth(int month) {
-    _curMonth = month;
+  void setCurMonth(int month) => _curMonth = month;
+
+  ScheduleViewModel(this.state) {
+    _initState();
+    Provider.of<ScheduleProvider>(state.context, listen: false)
+        .getMySchedule(year: curYear);
   }
 
   Future<void> onClickDayCell({
     required DateTime date,
-    required List<ScheduleModel> scheduleList,
+    required int index,
     required MonthType type,
   }) async {
     switch (type) {
       case MonthType.CURRENT:
-        showModalBottomSheet(
-          context: state.context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) {
+        _showDayCellBottomSheet(date, index);
+        break;
+      case MonthType.PREV:
+        await pageController.previousPage(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+        );
+        break;
+      case MonthType.NEXT:
+        await pageController.nextPage(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+        );
+        break;
+    }
+  }
+
+  Future<void> _showDayCellBottomSheet(DateTime date, int index) async {
+    final int year = _baseYear + (index ~/ 12);
+    final int month = (index % 12) + 1;
+    final String key = '$year${month.toString().padLeft(2, '0')}';
+    final targetDateStr =
+        CoupleUtil().dateTimeToString(DateTime(year, month, date.day));
+
+    await showModalBottomSheet(
+      context: state.context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Consumer<ScheduleProvider>(
+          builder: (_, prov, __) {
+            final scheduleList = prov.scheduleData[key] ?? [];
+
+            final list = scheduleList.where((e) {
+              return CoupleUtil().dateTimeToString(e.startDate) ==
+                  targetDateStr;
+            }).toList();
+
             return DayCellDetailBottomSheet(
               date: date,
-              scheduleList: scheduleList,
+              scheduleList: list,
             );
           },
         );
-        break;
-      case MonthType.PREV:
-        pageController.previousPage(
-            duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
-        break;
-      case MonthType.NEXT:
-        pageController.nextPage(
-            duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
-        break;
-    }
+      },
+    );
   }
 
   @override
@@ -62,27 +90,21 @@ class ScheduleViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    pageController.removeListener(pageListener);
+    if (pageController.hasListeners) {
+      pageController.removeListener(pageListener);
+    }
     pageController.dispose();
     super.dispose();
   }
 
-  ScheduleViewModel(this.state) {
-    Provider.of<ScheduleProvider>(state.context, listen: false)
-        .getMySchedule(year: curYear);
-    _initState();
-  }
-
   void _initState() {
-    DateTime now = DateTime.now();
+    final now = DateTime.now();
 
-    final initYear = now.year;
-    final initMonth = now.month;
     final initPage =
-        (initYear - 1970) * DateTime.monthsPerYear + (initMonth - 1);
+        (now.year - _baseYear) * DateTime.monthsPerYear + (now.month - 1);
 
-    setCurYear(initYear);
-    setCurMonth(initMonth);
+    setCurYear(now.year);
+    setCurMonth(now.month);
     pageController.addListener(pageListener);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -91,18 +113,19 @@ class ScheduleViewModel extends ChangeNotifier {
   }
 
   void pageListener() {
-    int page = pageController.page!.toInt();
-    int year = 1970 + (page ~/ 12);
-    int month = (page % 12) + 1;
-    bool getDataFlag = year != curYear;
+    final int page = pageController.page!.toInt();
+    final int year = _baseYear + (page ~/ 12);
+    final int month = (page % 12) + 1;
+
+    final bool shouldFetch = year != _curYear;
 
     setCurYear(year);
     setCurMonth(month);
     notifyListeners();
 
-    if (getDataFlag) {
+    if (shouldFetch) {
       Provider.of<ScheduleProvider>(state.context, listen: false)
-          .getMySchedule(year: curYear);
+          .getMySchedule(year: _curYear);
     }
   }
 }

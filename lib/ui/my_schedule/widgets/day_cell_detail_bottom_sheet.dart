@@ -33,6 +33,12 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
   }
 
   @override
+  void didUpdateWidget(covariant DayCellDetailBottomSheet oldWidget) {
+    debugPrint('listlistlist : ${widget.scheduleList}');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DragToDispose(
       onPageClosed: () {

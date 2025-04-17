@@ -81,6 +81,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
   }
 
   Future<void> createSchedule() async {
+    final memberIdList = memberUserList.map((e) => e.uid).toList();
     await ScheduleRepository().createMySchedule(
       title: titleController.getStatus.text,
       content: contentController.getStatus.text,
@@ -88,6 +89,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
       location: locationController.getStatus.text,
       startDate: startDate,
       endDate: endDate,
+      memberIds: memberIdList,
     );
   }
 
@@ -110,6 +112,17 @@ class ScheduleFormViewModel extends ChangeNotifier {
         );
       },
     );
+  }
+
+  void onClickRemoveFriend(String uid) {
+    final temp = List<UserModel>.from(memberUserList);
+    int idx = temp.indexWhere((e) => e.uid == uid);
+
+    temp.removeAt(idx);
+
+    setMemberUserList(temp);
+
+    notifyListeners();
   }
 
   Future<void> onClickSearchAddressBtn() async {

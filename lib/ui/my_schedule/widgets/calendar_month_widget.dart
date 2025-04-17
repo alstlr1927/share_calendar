@@ -5,10 +5,10 @@ import '../../../util/couple_style.dart';
 import '../../common/components/custom_button/base_button.dart';
 import '../model/schedule_model.dart';
 
-typedef OnClickMonthCell = void Function(
-    {required DateTime date,
-    required List<ScheduleModel> scheduleList,
-    required MonthType type});
+typedef OnClickMonthCell = void Function({
+  required DateTime date,
+  required MonthType type,
+});
 
 enum MonthType {
   PREV,
@@ -106,7 +106,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
           textColor: CoupleStyle.gray060,
           onPressed: () => widget.onPressedDay?.call(
             date: dt,
-            scheduleList: [],
+            // scheduleList: [],
             type: MonthType.PREV,
           ),
         ),
@@ -137,7 +137,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
           scheduleList: list,
           onPressed: () => widget.onPressedDay?.call(
             date: targetDt,
-            scheduleList: list,
+            // scheduleList: list,
             type: MonthType.CURRENT,
           ),
         ),
@@ -170,7 +170,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
           textColor: CoupleStyle.gray060,
           onPressed: () => widget.onPressedDay?.call(
             date: dt,
-            scheduleList: [],
+            // scheduleList: [],
             type: MonthType.NEXT,
           ),
         ),

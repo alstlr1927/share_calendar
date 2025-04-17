@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/couple_text_field.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
@@ -124,28 +125,110 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
         Selector<ScheduleFormViewModel, List<UserModel>>(
           selector: (_, vm) => vm.memberUserList,
           builder: (_, list, __) {
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: viewModel.onClickTagFriend,
-                    child: Container(
-                      width: 40.toWidth,
-                      height: 40.toWidth,
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        shape: BoxShape.circle,
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BaseButton(
+                  onPressed: viewModel.onClickTagFriend,
+                  child: Container(
+                    width: 40.toWidth,
+                    height: 40.toWidth,
+                    margin: EdgeInsets.all(3.toWidth),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        width: 1.toWidth,
+                        color: CoupleStyle.gray070,
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                        color: CoupleStyle.gray070,
                       ),
                     ),
                   ),
-                  ...list.map((e) => Text('e : ${e.username}')),
-                ],
-              ),
+                ),
+                SizedBox(width: 3.toWidth),
+                Container(
+                  width: 1.toWidth,
+                  height: 20.toWidth,
+                  margin: EdgeInsets.only(top: 13.toWidth),
+                  color: CoupleStyle.gray070,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        SizedBox(width: 3.toWidth),
+                        ...list
+                            .map((e) => _friendCircle(e))
+                            .superJoin(
+                              SizedBox(width: 0.toWidth),
+                            )
+                            .toList(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),
       ],
+    );
+  }
+
+  Widget _friendCircle(UserModel friend) {
+    return BaseButton(
+      onPressed: () => viewModel.onClickRemoveFriend(friend.uid),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 46.toWidth,
+            height: 46.toWidth,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 40.toWidth,
+                    height: 40.toWidth,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(friend.profileImg),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 16.toWidth,
+                    height: 16.toWidth,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: CoupleStyle.coral050,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.remove,
+                        size: 16,
+                        color: CoupleStyle.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10.toHeight),
+        ],
+      ),
     );
   }
 

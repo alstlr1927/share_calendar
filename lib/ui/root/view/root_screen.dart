@@ -1,4 +1,7 @@
+import 'package:couple_calendar/service/auth_service.dart';
+import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
+import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
 import 'package:couple_calendar/ui/common/components/lazy_indexed_stack/lazy_indexed_stack.dart';
 import 'package:couple_calendar/ui/my_schedule/view/schedule_screen.dart';
@@ -61,7 +64,21 @@ class _RootScreenState extends State<RootScreen> {
                         color: Colors.amber,
                       ),
                       ScheduleScreen(),
-                      Container(),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+                        child: Center(
+                          child: CoupleButton(
+                            onPressed: () {
+                              AuthService().userSignout();
+                            },
+                            option: CoupleButtonOption.fill(
+                              text: '로그아웃',
+                              theme: CoupleButtonFillTheme.lightMagenta,
+                              style: CoupleButtonFillStyle.fullRegular,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   _buildBottomNav(),

@@ -55,17 +55,23 @@ class AuthService {
     try {
       Provider.of<LoadingProvider>(nav.currentContext!, listen: false)
           .setIsLoading(true);
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final res = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      //     .catchError((e, trace) {
+      //   debugPrint('error : $e');
+      //   debugPrint('$trace');
+      // });
+
+      debugPrint('res : ${res}');
     } on FirebaseAuthException catch (e) {
       String body = '서버에 오류가 발생했습니다. (${e.code})';
       switch (e.code.toLowerCase()) {
         case 'invalid_login_credential':
         case 'invalid-credential':
           body = '비밀번호 또는 이메일을 다시 입력해주세요.';
-          return;
+          break;
         case 'user-disabled':
           body = '제한된 유저입니다.';
           break;

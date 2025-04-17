@@ -57,13 +57,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                             year: year,
                             month: month,
                             scheduleList: scheduleList,
-                            onPressedDay: (
-                                    {required date,
-                                    required scheduleList,
-                                    required type}) =>
+                            onPressedDay: ({
+                              required date,
+                              required type,
+                            }) =>
                                 viewModel.onClickDayCell(
                               date: date,
-                              scheduleList: scheduleList,
+                              index: index,
                               type: type,
                             ),
                           );
