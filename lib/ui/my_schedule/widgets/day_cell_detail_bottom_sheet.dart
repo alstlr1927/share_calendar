@@ -2,6 +2,7 @@ import 'package:couple_calendar/router/couple_router.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/drag_to_dispose/drag_to_dispose.dart';
 import 'package:couple_calendar/ui/my_schedule/model/schedule_model.dart';
+import 'package:couple_calendar/ui/my_schedule/widgets/schedule_list_item.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
@@ -25,26 +26,36 @@ class DayCellDetailBottomSheet extends StatefulWidget {
 }
 
 class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
+  int _openIdx = -1;
+  int get openIdx => _openIdx;
+  void setOpenIdx(int idx) => _openIdx = idx;
+
+  void onMoveUpdate({required PointerMoveEvent event, required int idx}) {
+    debugPrint('onPointerMove : ${event.delta.dx}');
+
+    if (event.delta.dx > 7 && idx == openIdx) {
+      setOpenIdx(-1);
+      setState(() {});
+    } else if (event.delta.dx < -7) {
+      setOpenIdx(idx);
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    debugPrint('scheduleList : ${widget.scheduleList}');
-    debugPrint('date : ${widget.date}');
   }
 
   @override
   void didUpdateWidget(covariant DayCellDetailBottomSheet oldWidget) {
-    debugPrint('listlistlist : ${widget.scheduleList}');
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
     return DragToDispose(
-      onPageClosed: () {
-        debugPrint('onPageClosed');
-        context.pop();
-      },
+      onPageClosed: () => context.pop(),
       maxHeight: ScreenUtil().screenHeight * .85,
       dragEnable: true,
       backdropTapClosesPanel: true,
@@ -73,12 +84,10 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
                   child: SingleChildScrollView(
                     controller: scrollController,
                     child: Column(
-                      children: [
-                        ...widget.scheduleList
-                            .map((e) => _buildScheduleItem(e))
-                            .superJoin(SizedBox(height: 8.toHeight))
-                            .toList(),
-                      ],
+                      children: widget.scheduleList
+                          .map((e) => ScheduleListItem(schedule: e) as Widget)
+                          .superJoin(SizedBox(height: 8.toHeight))
+                          .toList(),
                     ),
                   ),
                 ),
@@ -102,72 +111,6 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildScheduleItem(ScheduleModel schedule) {
-    return GestureDetector(
-      onTap: () => CoupleRouter().loadScheduleForm(
-        context,
-        scheduleId: schedule.id,
-        date: widget.date,
-      ),
-      child: Container(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: IntrinsicHeight(
-              child: Row(
-                children: [
-                  Container(
-                    width: 6.toWidth,
-                    color: schedule.theme.textColor,
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 8.toWidth, vertical: 8.toHeight),
-                      decoration: BoxDecoration(
-                        color: schedule.theme.backColor,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(4),
-                          bottomRight: Radius.circular(4),
-                        ),
-                        border: Border(
-                          right: BorderSide(color: schedule.theme.textColor),
-                          top: BorderSide(color: schedule.theme.textColor),
-                          bottom: BorderSide(color: schedule.theme.textColor),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            schedule.title,
-                            style: CoupleStyle.body2(
-                              color: schedule.theme.textColor,
-                              weight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(height: 4.toHeight),
-                          Text(
-                            schedule.type,
-                            style: CoupleStyle.caption(
-                              color: schedule.theme.textColor,
-                              weight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 

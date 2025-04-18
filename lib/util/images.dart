@@ -1,7 +1,5 @@
 // splash
-const String splashBgImg = 'assets/images/common/cc_splash.png';
-const String whiteAppLogoImg = 'assets/images/common/cc_logo.png';
-const String filledAppLogoImg = 'assets/images/common/cc_logo_filled.png';
+const String appLogo = 'assets/images/common/app_logo.png';
 
 // common icons
 const String hidePw = 'assets/icons/common/pw_hide.svg';

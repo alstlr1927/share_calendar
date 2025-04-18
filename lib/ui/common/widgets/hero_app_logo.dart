@@ -4,18 +4,9 @@ import 'package:couple_calendar/util/images.dart';
 import 'package:flutter/material.dart';
 
 class HeroAppLogo extends StatelessWidget {
-  final bool isWhite;
-  final Color textColor;
-
-  const HeroAppLogo.white({
+  const HeroAppLogo({
     super.key,
-    required this.textColor,
-  }) : isWhite = true;
-
-  const HeroAppLogo.filled({
-    super.key,
-    required this.textColor,
-  }) : isWhite = false;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +18,14 @@ class HeroAppLogo extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              whiteAppLogoImg,
-              width: 130.toWidth,
-              color: isWhite ? null : Color(0xffff705e),
+              appLogo,
+              width: 200.toWidth,
             ),
             Text(
-              '상대방의 일정을\n확인해요',
+              '가치있게 같이있는',
               style: CoupleStyle.h3(
-                color: textColor,
-                weight: FontWeight.w800,
+                color: CoupleStyle.primary050,
+                weight: FontWeight.w600,
               ),
               textAlign: TextAlign.center,
             ),

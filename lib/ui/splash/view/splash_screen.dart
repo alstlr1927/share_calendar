@@ -2,9 +2,9 @@ import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:couple_calendar/ui/common/widgets/hero_app_logo.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-import '../../../util/images.dart';
 import '../../common/components/layout/default_layout.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.wait([
       Future.delayed(const Duration(milliseconds: 1200)),
     ]).then((_) {
+      timeDilation = 5;
       Provider.of<UserProvider>(context, listen: false)
           .checkTokenSubscription();
     });
@@ -33,16 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return DefaultLayout(
       child: Stack(
         children: [
-          Image.asset(
-            splashBgImg,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
+          // Image.asset(
+          //   splashBgImg,
+          //   height: double.infinity,
+          //   fit: BoxFit.cover,
+          // ),
           Align(
             alignment: Alignment.center,
-            child: HeroAppLogo.white(
-              textColor: CoupleStyle.white,
-            ),
+            child: const HeroAppLogo(),
           ),
         ],
       ),

@@ -10,6 +10,7 @@ import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:couple_calendar/util/images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +45,12 @@ class _RootScreenState extends State<RootScreen> {
   void dispose() {
     viewModel.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    timeDilation = 1;
+    super.didChangeDependencies();
   }
 
   @override

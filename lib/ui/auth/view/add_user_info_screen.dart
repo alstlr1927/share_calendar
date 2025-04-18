@@ -5,8 +5,8 @@ import 'package:couple_calendar/ui/common/components/couple_text_field/field_con
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
 import 'package:couple_calendar/util/couple_util.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../../../util/couple_style.dart';
@@ -34,6 +34,12 @@ class _AddUserInfoScreenState extends State<AddUserInfoScreen> {
   void dispose() {
     viewModel.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    timeDilation = 1;
+    super.didChangeDependencies();
   }
 
   @override

@@ -98,20 +98,34 @@ class ScheduleFormViewModel extends ChangeNotifier {
   }
 
   Future<void> onClickTagFriend() async {
-    showModalBottomSheet(
-      context: state.context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return TagFriendsBottomSheet(
-          selectedList: memberUserList,
-          onAdd: (list) {
-            setMemberUserList(list);
-            notifyListeners();
-          },
-        );
-      },
+    await Navigator.push(
+      state.context,
+      SheetRoute(
+        builder: (context) {
+          return TagFriendsBottomSheet(
+            selectedList: memberUserList,
+            onAdd: (list) {
+              setMemberUserList(list);
+              notifyListeners();
+            },
+          );
+        },
+      ),
     );
+    // showModalBottomSheet(
+    //   context: state.context,
+    //   isScrollControlled: false,
+    //   backgroundColor: Colors.transparent,
+    //   builder: (context) {
+    //     return TagFriendsBottomSheet(
+    //       selectedList: memberUserList,
+    //       onAdd: (list) {
+    //         setMemberUserList(list);
+    //         notifyListeners();
+    //       },
+    //     );
+    //   },
+    // );
   }
 
   void onClickRemoveFriend(String uid) {

@@ -1,3 +1,4 @@
+import 'package:couple_calendar/router/couple_router.dart';
 import 'package:couple_calendar/ui/my_schedule/widgets/day_cell_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,28 +58,51 @@ class ScheduleViewModel extends ChangeNotifier {
     final targetDateStr =
         CoupleUtil().dateTimeToString(DateTime(year, month, date.day));
 
-    await showModalBottomSheet(
-      context: state.context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Consumer<ScheduleProvider>(
-          builder: (_, prov, __) {
-            final scheduleList = prov.scheduleData[key] ?? [];
+    await Navigator.push(
+      state.context,
+      SheetRoute(
+        builder: (context) {
+          return Consumer<ScheduleProvider>(
+            builder: (_, prov, __) {
+              final scheduleList = prov.scheduleData[key] ?? [];
 
-            final list = scheduleList.where((e) {
-              return CoupleUtil().dateTimeToString(e.startDate) ==
-                  targetDateStr;
-            }).toList();
+              final list = scheduleList.where((e) {
+                return CoupleUtil().dateTimeToString(e.startDate) ==
+                    targetDateStr;
+              }).toList();
 
-            return DayCellDetailBottomSheet(
-              date: date,
-              scheduleList: list,
-            );
-          },
-        );
-      },
+              return DayCellDetailBottomSheet(
+                date: date,
+                scheduleList: list,
+              );
+            },
+          );
+        },
+      ),
     );
+
+    // await showModalBottomSheet(
+    //   context: state.context,
+    //   isScrollControlled: false,
+    //   backgroundColor: Colors.transparent,
+    //   builder: (context) {
+    //     return Consumer<ScheduleProvider>(
+    //       builder: (_, prov, __) {
+    //         final scheduleList = prov.scheduleData[key] ?? [];
+
+    //         final list = scheduleList.where((e) {
+    //           return CoupleUtil().dateTimeToString(e.startDate) ==
+    //               targetDateStr;
+    //         }).toList();
+
+    //         return DayCellDetailBottomSheet(
+    //           date: date,
+    //           scheduleList: list,
+    //         );
+    //       },
+    //     );
+    //   },
+    // );
   }
 
   @override

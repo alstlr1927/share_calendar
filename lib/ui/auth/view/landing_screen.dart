@@ -8,6 +8,7 @@ import 'package:couple_calendar/ui/common/widgets/hero_app_logo.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../widget/social_login_button.dart';
@@ -36,6 +37,12 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    timeDilation = 1;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<LandingViewModel>.value(
       value: viewModel,
@@ -46,7 +53,7 @@ class _LandingScreenState extends State<LandingScreen> {
             child: Column(
               children: [
                 SizedBox(height: 120.toHeight),
-                HeroAppLogo.filled(textColor: Colors.black),
+                const HeroAppLogo(),
                 const Spacer(),
                 SocialLoginButton.square(type: SocialLoginButtonType.KAKAO),
                 SizedBox(height: 8.toHeight),
