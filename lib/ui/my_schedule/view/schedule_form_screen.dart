@@ -226,7 +226,15 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
               ],
             ),
           ),
-          SizedBox(height: 10.toHeight),
+          SizedBox(
+            width: 46.toWidth,
+            child: Text(
+              friend.username,
+              style: CoupleStyle.overline(),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
         ],
       ),
     );

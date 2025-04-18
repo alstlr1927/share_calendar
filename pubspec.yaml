@@ -48,6 +48,7 @@ dependencies:
   animated_bottom_navigation_bar: ^1.4.0
   event_bus: ^2.0.1
   back_button_interceptor: ^8.0.4
+  google_maps_flutter: ^2.12.1
 
 dev_dependencies:
   flutter_test:

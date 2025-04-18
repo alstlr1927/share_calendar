@@ -51,6 +51,10 @@ class CoupleUtil {
   String dateTimeToDayOfWeek(DateTime dt) {
     return DateFormat.E('ko_KR').format(dt);
   }
+
+  String dateTimeToFullStr(DateTime dt) {
+    return DateFormat('yyyy.MM.dd HH:mm').format(dt);
+  }
 }
 
 class Device {
