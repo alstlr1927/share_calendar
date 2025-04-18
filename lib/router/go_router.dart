@@ -3,6 +3,7 @@ import 'package:couple_calendar/ui/auth/view/add_user_info_screen.dart';
 import 'package:couple_calendar/ui/auth/view/landing_screen.dart';
 import 'package:couple_calendar/ui/auth/view/login_screen.dart';
 import 'package:couple_calendar/ui/auth/view/signup_email_screen.dart';
+import 'package:couple_calendar/ui/my_schedule/view/schedule_detail_screen.dart';
 import 'package:couple_calendar/ui/my_schedule/view/schedule_form_screen.dart';
 import 'package:couple_calendar/ui/root/view/root_screen.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,15 @@ final router = GoRouter(
               scheduleId: id,
               selectDate: date,
             );
+          },
+        ),
+        GoRoute(
+          path: '/schedule_detail',
+          name: ScheduleDetailScreen.routeName,
+          builder: (_, state) {
+            final id = state.extra as String;
+
+            return ScheduleDetailScreen(scheduleId: id);
           },
         ),
       ],

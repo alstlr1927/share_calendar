@@ -1,5 +1,4 @@
 import 'package:couple_calendar/service/auth_service.dart';
-import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';

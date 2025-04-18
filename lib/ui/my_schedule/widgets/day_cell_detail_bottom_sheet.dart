@@ -91,6 +91,7 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10.toWidth),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                   child: CoupleButton(
@@ -101,7 +102,7 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
                     option: CoupleButtonOption.fill(
                       text: '+ 할일을 추가 해보세요.',
                       theme: CoupleButtonFillTheme.lightMagenta,
-                      style: CoupleButtonFillStyle.fullSmall,
+                      style: CoupleButtonFillStyle.fullRegular,
                     ),
                   ),
                 ),

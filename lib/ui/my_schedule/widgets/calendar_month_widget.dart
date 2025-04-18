@@ -258,6 +258,7 @@ class _MonthDayCell extends StatelessWidget {
   }
 
   Widget _buildCellScheduleItem(ScheduleModel schedule) {
+    BorderSide side = BorderSide(width: .3, color: schedule.theme.textColor);
     return Container(
       width: double.infinity,
       child: IntrinsicHeight(
@@ -269,8 +270,15 @@ class _MonthDayCell extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                color: schedule.theme.backColor,
                 padding: EdgeInsets.only(left: 3.toWidth),
+                decoration: BoxDecoration(
+                  color: schedule.theme.backColor,
+                  border: Border(
+                    top: side,
+                    right: side,
+                    bottom: side,
+                  ),
+                ),
                 child: Text(
                   schedule.title,
                   style: CoupleStyle.overline(color: schedule.theme.textColor),

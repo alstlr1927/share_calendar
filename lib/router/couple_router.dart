@@ -2,6 +2,7 @@ import 'package:couple_calendar/ui/auth/view/add_user_info_screen.dart';
 import 'package:couple_calendar/ui/auth/view/landing_screen.dart';
 import 'package:couple_calendar/ui/auth/view/login_screen.dart';
 import 'package:couple_calendar/ui/auth/view/signup_email_screen.dart';
+import 'package:couple_calendar/ui/my_schedule/view/schedule_detail_screen.dart';
 import 'package:couple_calendar/ui/my_schedule/view/schedule_form_screen.dart';
 import 'package:couple_calendar/ui/my_schedule/view/search_address_screen.dart';
 import 'package:couple_calendar/ui/root/view/root_screen.dart';
@@ -38,11 +39,15 @@ class CoupleRouter {
     );
   }
 
-  // loadMySchedule(BuildContext context) async {
-  //   return await context.pushNamed(
-  //     MyScheduleScreen.routeName,
-  //   );
-  // }
+  loadScheduleDetail(
+    BuildContext context, {
+    required String scheduleId,
+  }) async {
+    return await context.pushNamed(
+      ScheduleDetailScreen.routeName,
+      extra: scheduleId,
+    );
+  }
 
   loadScheduleForm(
     BuildContext context, {

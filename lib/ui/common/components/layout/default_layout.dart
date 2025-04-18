@@ -12,6 +12,7 @@ import '../indicator/couple_indicator.dart';
 
 class DefaultLayout extends StatelessWidget {
   final String? title;
+  final Color? titleColor;
   final Widget child;
   final Color? backgroundColor;
   final Color? appbarBackgroundColor;
@@ -31,6 +32,7 @@ class DefaultLayout extends StatelessWidget {
     this.backgroundColor = CoupleStyle.white,
     this.appbarBackgroundColor = CoupleStyle.white,
     this.title,
+    this.titleColor,
     this.resizeToAvoidBottomInset,
     this.leading,
     this.actions = const [],
@@ -88,10 +90,16 @@ class DefaultLayout extends StatelessWidget {
     if (title != null) {
       return AppBar(
         iconTheme: IconThemeData(
-          color: CoupleStyle.gray090,
+          color: titleColor ?? CoupleStyle.gray090,
         ),
         backgroundColor: appbarBackgroundColor,
-        title: Text(title!),
+        title: Text(
+          title!,
+          style: CoupleStyle.body1(
+            weight: FontWeight.w600,
+            color: titleColor ?? CoupleStyle.gray090,
+          ),
+        ),
         scrolledUnderElevation: 0,
         actions: actions,
         leading: leading ?? _defaultLeading(),

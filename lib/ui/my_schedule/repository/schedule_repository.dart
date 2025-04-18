@@ -93,11 +93,13 @@ class ScheduleRepository {
     required DateTime endDate,
     required ScheduleTheme theme,
     required String location,
+    double? latitude,
+    double? longitude,
     List<String> memberIds = const [],
   }) async {
     final uid =
         Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
-    await scheduleDb.doc(id).set({
+    var data = {
       'id': id,
       'title': title,
       'content': content,
@@ -114,7 +116,12 @@ class ScheduleRepository {
       'created_at': Timestamp.now(),
       'updated_at': Timestamp.now(),
       'is_able': true,
-    });
+    };
+    if (latitude != null && longitude != null) {
+      data['latitude'] = latitude;
+      data['longitude'] = longitude;
+    }
+    await scheduleDb.doc(id).set(data);
   }
 
   Future<void> createMySchedule({
@@ -124,13 +131,14 @@ class ScheduleRepository {
     required DateTime endDate,
     required ScheduleTheme theme,
     required String location,
+    required double? latitude,
+    double? longitude,
     List<String> memberIds = const [],
   }) async {
     final uid =
         Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
     final id = uuid.v4();
-
-    await scheduleDb.doc(id).set({
+    var data = {
       'id': id,
       'title': title,
       'content': content,
@@ -147,6 +155,11 @@ class ScheduleRepository {
       'created_at': Timestamp.now(),
       'updated_at': Timestamp.now(),
       'is_able': true,
-    });
+    };
+    if (latitude != null && longitude != null) {
+      data['latitude'] = latitude;
+      data['longitude'] = longitude;
+    }
+    await scheduleDb.doc(id).set(data);
   }
 }

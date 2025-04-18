@@ -29,6 +29,8 @@ class ScheduleFormViewModel extends ChangeNotifier {
   late FieldController titleController;
   late FieldController contentController;
   late FieldController locationController;
+  double? latitude;
+  double? longitude;
 
   ScheduleTheme _curTheme = ScheduleTheme.WHITE;
   ScheduleTheme get curTheme => _curTheme;
@@ -87,6 +89,8 @@ class ScheduleFormViewModel extends ChangeNotifier {
       content: contentController.getStatus.text,
       theme: curTheme,
       location: locationController.getStatus.text,
+      latitude: latitude,
+      longitude: longitude,
       startDate: startDate,
       endDate: endDate,
       memberIds: memberIdList,
@@ -144,10 +148,13 @@ class ScheduleFormViewModel extends ChangeNotifier {
 
     if (res == null) return;
 
-    debugPrint('');
+    debugPrint('latitude :${res.latitude}');
+    debugPrint('longitude :${res.longitude}');
 
     locationController.textController?.text = res.address;
     locationController.setText(res.address);
+    latitude = res.latitude;
+    longitude = res.longitude;
     notifyListeners();
   }
 
@@ -281,6 +288,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
     titleController = FieldController(initText: model.title);
     contentController = FieldController(initText: model.content);
     locationController = FieldController(initText: model.location);
+    locationController.setIsEnable(false);
     _curTheme = model.theme;
     startDate = model.startDate;
     endDate = model.endDate;
@@ -294,6 +302,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
     titleController = FieldController();
     contentController = FieldController();
     locationController = FieldController();
+    locationController.setIsEnable(false);
     startDate =
         DateTime(selectDate.year, selectDate.month, selectDate.day, now.hour);
     endDate = startDate.add(const Duration(hours: 1));

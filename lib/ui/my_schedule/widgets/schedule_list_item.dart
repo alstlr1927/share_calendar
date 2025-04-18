@@ -16,11 +16,13 @@ class ScheduleListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => CoupleRouter().loadScheduleForm(
-        context,
-        scheduleId: schedule.id,
-        date: schedule.startDate,
-      ),
+      onTap: () =>
+          CoupleRouter().loadScheduleDetail(context, scheduleId: schedule.id),
+      // onTap: () => CoupleRouter().loadScheduleForm(
+      //   context,
+      //   scheduleId: schedule.id,
+      //   date: schedule.startDate,
+      // ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
         child: ClipRRect(
