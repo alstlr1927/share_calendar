@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class HomeViewModel extends ChangeNotifier {
   State state;
 
+  DateTime today = DateTime.now();
+
   @override
   void notifyListeners() {
     if (state.mounted) {

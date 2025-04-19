@@ -5,6 +5,16 @@ import 'dart:math' as math;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+enum ScheduleState {
+  UP_COMING('시작 전'),
+  ON_GOING('진행 중'),
+  ENDED('종료');
+
+  const ScheduleState(this.title);
+
+  final String title;
+}
+
 extension IterableExt<T> on Iterable<T> {
   Iterable<T> superJoin(T separator) {
     final iterator = this.iterator;
@@ -38,23 +48,31 @@ class CoupleUtil {
   }) {
     final now = DateTime.now();
 
-    if (now.isBefore(startDate)) {
-      final diff = startDate.difference(now);
-      final totalMinutes = diff.inMinutes;
-      final hours = totalMinutes ~/ 60;
-      final minutes = totalMinutes % 60;
+    final diff = startDate.difference(now);
+    final totalMinutes = diff.inMinutes;
+    final hours = totalMinutes ~/ 60;
+    final minutes = totalMinutes % 60;
 
-      if (totalMinutes < 60) {
-        return '$minutes분 남음';
-      } else if (minutes == 0) {
-        return '$hours시간 남음';
-      } else {
-        return '$hours시간 $minutes분 남음';
-      }
+    if (totalMinutes < 60) {
+      return '$minutes분 남음';
+    } else if (minutes == 0) {
+      return '$hours시간 남음';
+    } else
+      return '$hours시간 $minutes분 남음';
+  }
+
+  ScheduleState getScheduleState({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    final now = DateTime.now();
+
+    if (now.isBefore(startDate)) {
+      return ScheduleState.UP_COMING;
     } else if (now.isAfter(startDate) && now.isBefore(endDate)) {
-      return '진행중';
+      return ScheduleState.ON_GOING;
     } else {
-      return '종료';
+      return ScheduleState.ENDED;
     }
   }
 
