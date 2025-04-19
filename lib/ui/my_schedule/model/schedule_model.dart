@@ -44,6 +44,12 @@ class ScheduleModel {
   @JsonKey(name: 'location', fromJson: DataUtils.parseString)
   final String location;
 
+  @JsonKey(name: 'latitude', fromJson: DataUtils.parseDouble)
+  final double latitude;
+
+  @JsonKey(name: 'longitude', fromJson: DataUtils.parseDouble)
+  final double longitude;
+
   @JsonKey(name: 'start_date', fromJson: DataUtils.parseDateTime)
   final DateTime startDate;
 
@@ -71,6 +77,8 @@ class ScheduleModel {
     required this.ownerUserId,
     required this.memberIds,
     required this.location,
+    required this.latitude,
+    required this.longitude,
     required this.startDate,
     required this.endDate,
     required this.createdAt,
@@ -94,6 +102,8 @@ class ScheduleModel {
     String? ownerUserId,
     List<String>? memberIds,
     String? location,
+    double? latitude,
+    double? longitude,
     DateTime? startDate,
     DateTime? endDate,
     DateTime? createdAt,
@@ -110,6 +120,8 @@ class ScheduleModel {
         ownerUserId: ownerUserId ?? this.ownerUserId,
         memberIds: memberIds ?? this.memberIds,
         location: location ?? this.location,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
         startDate: startDate ?? this.startDate,
         endDate: endDate ?? this.endDate,
         createdAt: createdAt ?? this.createdAt,

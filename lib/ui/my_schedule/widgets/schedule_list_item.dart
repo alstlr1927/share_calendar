@@ -18,11 +18,6 @@ class ScheduleListItem extends StatelessWidget {
     return GestureDetector(
       onTap: () =>
           CoupleRouter().loadScheduleDetail(context, scheduleId: schedule.id),
-      // onTap: () => CoupleRouter().loadScheduleForm(
-      //   context,
-      //   scheduleId: schedule.id,
-      //   date: schedule.startDate,
-      // ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
         child: ClipRRect(
@@ -38,6 +33,9 @@ class ScheduleListItem extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: 8.toWidth, vertical: 8.toHeight),
+                    constraints: BoxConstraints(
+                      maxHeight: 100.toHeight,
+                    ),
                     decoration: BoxDecoration(
                       color: schedule.theme.backColor,
                       borderRadius: BorderRadius.only(
@@ -50,23 +48,50 @@ class ScheduleListItem extends StatelessWidget {
                         bottom: BorderSide(color: schedule.theme.textColor),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        Text(
-                          schedule.title,
-                          style: CoupleStyle.body2(
-                            color: schedule.theme.textColor,
-                            weight: FontWeight.w600,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                schedule.title,
+                                style: CoupleStyle.body2(
+                                  color: schedule.theme.textColor,
+                                  weight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(height: 4.toHeight),
+                              Expanded(
+                                child: Text(
+                                  schedule.content,
+                                  style: CoupleStyle.caption(
+                                    color: schedule.theme.textColor,
+                                    weight: FontWeight.w600,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 4.toHeight),
-                        Text(
-                          schedule.content,
-                          style: CoupleStyle.caption(
-                            color: schedule.theme.textColor,
-                            weight: FontWeight.w600,
-                          ),
+                        Column(
+                          children: [
+                            _timeBox(time: schedule.startDate),
+                            Expanded(
+                              child: Container(
+                                width: 2.toWidth,
+                                color: schedule.theme.textColor.withOpacity(.6),
+                              ),
+                            ),
+                            // Expanded(
+                            //   child: Icon(
+                            //     Icons.keyboard_arrow_down_outlined,
+                            //     color: schedule.theme.textColor,
+                            //   ),
+                            // ),
+                            _timeBox(time: schedule.endDate),
+                          ],
                         ),
                       ],
                     ),
@@ -74,6 +99,31 @@ class ScheduleListItem extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _timeBox({
+    required DateTime time,
+  }) {
+    final theme = schedule.theme;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 6.toWidth, vertical: 2.toWidth),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: theme.textColor.withOpacity(.6),
+        boxShadow: CoupleStyle.elevation_01dp(),
+      ),
+      child: Center(
+        child: Text(
+          CoupleUtil().hourToString(
+            time,
+          ),
+          style: CoupleStyle.overline(
+            color: CoupleStyle.white,
+            weight: FontWeight.w700,
           ),
         ),
       ),

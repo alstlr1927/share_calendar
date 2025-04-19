@@ -13,6 +13,7 @@ const String homeIcon = 'assets/icons/common/home_icon.svg';
 const String calendarIcon = 'assets/icons/common/calendar_icon.svg';
 const String settingIcon = 'assets/icons/common/setting_icon.svg';
 const String moreIcon = 'assets/icons/common/more_icon.svg';
+const String copyIcon = 'assets/icons/common/copy_icon.svg';
 
 // login
 const String appleLogoIcon = 'assets/icons/login/apple_logo.svg';

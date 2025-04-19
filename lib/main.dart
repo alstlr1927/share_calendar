@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
+import 'package:couple_calendar/ui/common/components/logger/couple_logger.dart';
 import 'package:couple_calendar/ui/common/components/overlay_notification/overlay.dart';
 import 'package:couple_calendar/ui/common/provider/loading_provider.dart';
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -33,6 +35,23 @@ class OverFlowGlowBehavior extends ScrollBehavior {
   }
 }
 
+Future<void> requestPermissions() async {
+  // location
+  final locationStatus = await Permission.locationWhenInUse.request();
+  // camera
+  final cameraStatus = await Permission.camera.request();
+  // photo
+  final photoStatus = await Permission.photos.request();
+  final storageStatus = await Permission.storage.request();
+  final mediaImageStatus = await Permission.mediaLibrary.request();
+
+  CoupleLog().d('location : $locationStatus');
+  CoupleLog().d('camera : $cameraStatus');
+  CoupleLog().d('photo : $photoStatus');
+  CoupleLog().d('storage : $storageStatus');
+  CoupleLog().d('media : $mediaImageStatus');
+}
+
 void main() async {
   CustomImageCache();
 
@@ -44,6 +63,8 @@ void main() async {
 
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  await requestPermissions();
 
   runApp(const MainApp());
 }

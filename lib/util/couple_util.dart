@@ -32,6 +32,32 @@ extension SizeExtension on num {
 }
 
 class CoupleUtil {
+  String getTimeStatus({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    final now = DateTime.now();
+
+    if (now.isBefore(startDate)) {
+      final diff = startDate.difference(now);
+      final totalMinutes = diff.inMinutes;
+      final hours = totalMinutes ~/ 60;
+      final minutes = totalMinutes % 60;
+
+      if (totalMinutes < 60) {
+        return '$minutes분 남음';
+      } else if (minutes == 0) {
+        return '$hours시간 남음';
+      } else {
+        return '$hours시간 $minutes분 남음';
+      }
+    } else if (now.isAfter(startDate) && now.isBefore(endDate)) {
+      return '진행중';
+    } else {
+      return '종료';
+    }
+  }
+
   String dateTimeToString(
     DateTime dt, {
     bool dayExclude = false,

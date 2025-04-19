@@ -47,5 +47,11 @@
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>프로필 이미지 설정을 위해 카메라 사용이 필요합니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>프로필 이미지 설정을 위해 사진 접근이 필요합니다.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>일정 장소를 위해 위치 정보 접근이 필요합니다.</string>
 </dict>
 </plist>

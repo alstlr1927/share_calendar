@@ -5,6 +5,7 @@ import 'package:couple_calendar/ui/common/components/custom_button/couple_button
 import 'package:couple_calendar/ui/common/components/dialog/couple_text_dialog.dart';
 import 'package:couple_calendar/ui/common/components/snack_bar/couple_noti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../common/components/logger/couple_logger.dart';
@@ -19,6 +20,11 @@ class ScheduleDetailViewModel extends ChangeNotifier {
   bool _isReady = false;
   bool get isReady => _isReady;
   void setIsReady(bool flag) => _isReady = flag;
+
+  void onClickCopyLocationBtn() {
+    Clipboard.setData(ClipboardData(text: schedule.location));
+    CoupleNotification().notify(title: '복사되었습니다.');
+  }
 
   Future<ScheduleModel?> _getMyScheduleById({
     required String scheduleId,
@@ -108,16 +114,18 @@ class ScheduleDetailViewModel extends ChangeNotifier {
   }
 
   ScheduleDetailViewModel(this.state, {required String scheduleId}) {
-    _getMyScheduleById(scheduleId: scheduleId).then((schedule) {
-      if (schedule == null) {
-        CoupleNotification().notify(title: '일정을 찾을 수 없습니다.');
-        state.context.pop();
-        return;
-      }
+    _getMyScheduleById(scheduleId: scheduleId).then(_initSetting);
+  }
 
-      this.schedule = schedule;
-      setIsReady(true);
-      notifyListeners();
-    });
+  void _initSetting(ScheduleModel? schedule) {
+    if (schedule == null) {
+      CoupleNotification().notify(title: '일정을 찾을 수 없습니다.');
+      state.context.pop();
+      return;
+    }
+
+    this.schedule = schedule;
+    setIsReady(true);
+    notifyListeners();
   }
 }
