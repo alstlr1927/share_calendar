@@ -19,6 +19,9 @@ class UserModel {
   @JsonKey(name: 'uid', fromJson: DataUtils.parseString)
   final String uid;
 
+  @JsonKey(name: 'user_id', fromJson: DataUtils.parseString)
+  final String userId;
+
   @JsonKey(name: 'profile_image', fromJson: DataUtils.parseString)
   final String profileImg;
 
@@ -36,6 +39,7 @@ class UserModel {
 
   UserModel({
     this.uid = '',
+    this.userId = '',
     this.username = '',
     this.profileImg = '',
     this.gender = UserGender.NONE,

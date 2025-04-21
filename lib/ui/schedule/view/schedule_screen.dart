@@ -1,6 +1,6 @@
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
-import 'package:couple_calendar/ui/my_schedule/view_model/schedule_view_model.dart';
-import 'package:couple_calendar/ui/my_schedule/widgets/calendar_month_widget.dart';
+import 'package:couple_calendar/ui/schedule/view_model/schedule_view_model.dart';
+import 'package:couple_calendar/ui/schedule/widgets/calendar_month_widget.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';

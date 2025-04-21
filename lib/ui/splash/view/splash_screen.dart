@@ -1,6 +1,5 @@
 import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:couple_calendar/ui/common/widgets/hero_app_logo.dart';
-import 'package:couple_calendar/util/couple_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';

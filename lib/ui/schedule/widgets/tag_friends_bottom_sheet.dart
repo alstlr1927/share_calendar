@@ -110,6 +110,7 @@ class _TagFriendsBottomSheetState extends State<TagFriendsBottomSheet> {
         SizedBox(width: 10.toWidth),
         CoupleButton(
           onPressed: () {
+            if (friendList.length > 10) return;
             widget.onAdd.call(friendList);
             context.pop();
           },
@@ -163,6 +164,9 @@ class _TagFriendsBottomSheetState extends State<TagFriendsBottomSheet> {
         if (isSelected) {
           friendList.removeAt(idx);
         } else {
+          if (friendList.length > 10) {
+            return;
+          }
           friendList.add(friend);
         }
         setState(() {});

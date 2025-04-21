@@ -11,12 +11,14 @@ class AddUserInfoViewModel extends ChangeNotifier {
   State state;
 
   FieldController nameController = FieldController();
+  FieldController idController = FieldController();
 
   UserGender _gender = UserGender.NONE;
   UserGender get gender => _gender;
 
   void focusout() {
     nameController.unfocus();
+    idController.unfocus();
   }
 
   void setGender(UserGender gender) {
@@ -25,9 +27,13 @@ class AddUserInfoViewModel extends ChangeNotifier {
 
   Future<void> onClickAddInfoBtn() async {
     final name = nameController.getStatus.text.trim();
+    final id = idController.getStatus.text.trim();
 
-    final res =
-        await UserRepository().setUserInfoData(name: name, gender: gender);
+    final res = await UserRepository().setUserInfoData(
+      name: name,
+      gender: gender,
+      userId: id,
+    );
 
     if (res) {
       CoupleRouter().replaceRoot(state.context);
@@ -48,6 +54,21 @@ class AddUserInfoViewModel extends ChangeNotifier {
       nameController.setErrorText('최소 2자 이상 입력해주세요.');
       nameController.setHasError(true);
       nameController.setIsValid(false);
+    }
+  }
+
+  void validateId(String text) {
+    idController.resetStatus();
+    if (text.isEmpty) return;
+
+    if (text.trim().length > 5) {
+      idController.setHasError(false);
+      idController.setIsValid(true);
+      idController.setIsEnable(true);
+    } else {
+      idController.setErrorText('최소 5자 이상 입력해주세요.');
+      idController.setHasError(true);
+      idController.setIsValid(false);
     }
   }
 
@@ -83,6 +104,7 @@ class AddUserInfoViewModel extends ChangeNotifier {
   @override
   void dispose() {
     nameController.dispose();
+    idController.dispose();
     super.dispose();
   }
 

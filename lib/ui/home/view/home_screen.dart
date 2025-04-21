@@ -1,4 +1,3 @@
-import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
 import 'package:couple_calendar/ui/home/view_model/home_view_model.dart';
 import 'package:couple_calendar/util/couple_util.dart';
@@ -61,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
           return data == target;
         }).toList();
         return SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(
+              parent: const BouncingScrollPhysics()),
           child: Column(
             children: list
                 .map((e) => HomeScheduleListItem(schedule: e) as Widget)
@@ -85,15 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const Spacer(),
-          CoupleButton(
-            onPressed: () {},
-            option: CoupleButtonOption.text(
-              text: '친구추가',
-              theme: CoupleButtonTextTheme.magenta,
-              style: CoupleButtonTextStyle.small,
-            ),
-          ),
-          SizedBox(width: 12.toWidth)
         ],
       ),
     );

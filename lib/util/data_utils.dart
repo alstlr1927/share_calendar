@@ -4,7 +4,7 @@ import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../ui/my_schedule/model/schedule_model.dart';
+import '../ui/schedule/model/schedule_model.dart';
 
 class DataUtils {
   // JsonSerializable로 생성된 모델에서 fromJson 을 할떄 변환 할 데이터 메서드 클래스

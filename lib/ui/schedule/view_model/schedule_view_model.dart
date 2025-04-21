@@ -1,5 +1,5 @@
 import 'package:couple_calendar/router/couple_router.dart';
-import 'package:couple_calendar/ui/my_schedule/widgets/day_cell_detail_bottom_sheet.dart';
+import 'package:couple_calendar/ui/schedule/widgets/day_cell_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,6 @@
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/components/snack_bar/couple_noti.dart';
-import 'package:couple_calendar/ui/my_schedule/model/schedule_model.dart';
+import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/foundation.dart';

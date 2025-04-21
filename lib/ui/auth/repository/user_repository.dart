@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:couple_calendar/api/client_service.dart';
 import 'package:couple_calendar/main.dart';
 import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
@@ -27,6 +28,7 @@ class UserRepository {
 
   Future<bool> setUserInfoData({
     required String name,
+    required String userId,
     required UserGender gender,
   }) async {
     try {
@@ -39,6 +41,9 @@ class UserRepository {
         'name': name,
         'gender': gender.name,
         'created_at': DateTime.now(),
+        'friend_ids': <String>[],
+        'profile_image': '',
+        'user_id': userId,
       });
 
       return true;
@@ -49,8 +54,9 @@ class UserRepository {
     }
   }
 
-  Future<List<UserModel>> getUserByUidList(
-      {required List<String> uidList}) async {
+  Future<List<UserModel>> getUserByUidList({
+    required List<String> uidList,
+  }) async {
     try {
       final futures = uidList.map((uid) {
         return userDb.doc(uid).get();
@@ -64,5 +70,42 @@ class UserRepository {
       CoupleLog().e('$trace');
     }
     return <UserModel>[];
+  }
+
+  // uid 리스트가 10개 이하일때 사용해야함
+  Future<List<UserModel>> getUserListByQuery({
+    required List<String> uidList,
+  }) async {
+    try {
+      final query = await userDb.where('uid', whereIn: uidList).get();
+
+      return query.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    } catch (e, trace) {
+      CoupleLog().e('error: $e');
+      CoupleLog().e('$trace');
+    }
+    return <UserModel>[];
+  }
+
+  Future<Map<String, dynamic>?> getUserProfileById({
+    required String userId,
+  }) async {
+    final query = await userDb.where('user_id', isEqualTo: userId).get();
+
+    if (query.docs.isNotEmpty) {
+      return query.docs.first.data();
+    }
+
+    return null;
+  }
+
+  Future<void> addUserFriend({
+    required String friendUid,
+  }) async {
+    final uid =
+        Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
+    await userDb.doc(uid).update({
+      'friend_ids': FieldValue.arrayUnion([friendUid])
+    });
   }
 }

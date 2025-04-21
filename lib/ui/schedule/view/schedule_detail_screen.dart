@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/components/inset_shadow_box/inset_shadow_box.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
-import 'package:couple_calendar/ui/my_schedule/view_model/schedule_detail_view_model.dart';
-import 'package:couple_calendar/ui/my_schedule/widgets/map_widget.dart';
+import 'package:couple_calendar/ui/schedule/view_model/schedule_detail_view_model.dart';
+import 'package:couple_calendar/ui/schedule/widgets/friends_circle_widget.dart';
+import 'package:couple_calendar/ui/schedule/widgets/map_widget.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:couple_calendar/util/images.dart';
@@ -62,12 +64,13 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       _buildContentArea(),
                       _buildDateArea(),
+                      _buildMemberArea(),
                       _buildMapArea(),
                       SizedBox(height: CoupleStyle.defaultBottomPadding()),
-                    ],
+                    ].superJoin(SizedBox(height: 10.toHeight)).toList(),
                   ),
                 ),
               ),
@@ -143,6 +146,31 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
     );
   }
 
+  Widget _buildMemberArea() {
+    return Builder(
+      builder: (context) {
+        final vm = Provider.of<ScheduleDetailViewModel>(context, listen: false);
+        return SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10.toHeight),
+              _titleText(title: '참여 인원'),
+              SizedBox(height: 6.toHeight),
+              Wrap(
+                children: vm.memberList
+                    .map((e) => FriendsCircleWidget(friend: e))
+                    .toList(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildDateArea() {
     return Builder(
       builder: (context) {
@@ -199,6 +227,21 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // SizedBox(height: 10.toHeight),
+              // ShaderMask(
+              //   shaderCallback: (bounds) {
+              //     return LinearGradient(
+              //       colors: [Colors.red, Colors.blue],
+              //       begin: Alignment.topLeft,
+              //       end: Alignment.bottomRight,
+              //     ).createShader(bounds);
+              //   },
+              //   blendMode: BlendMode.srcATop,
+              //   child: SvgPicture.asset(
+              //     editIcon,
+              //     width: 100.toWidth,
+              //   ),
+              // ),
               SizedBox(height: 10.toHeight),
               _titleText(title: '내용'),
               SizedBox(height: 6.toHeight),

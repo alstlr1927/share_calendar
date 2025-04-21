@@ -3,8 +3,9 @@ import 'package:couple_calendar/ui/common/components/custom_button/base_button.d
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
 import 'package:couple_calendar/ui/common/components/lazy_indexed_stack/lazy_indexed_stack.dart';
+import 'package:couple_calendar/ui/friends/view/friend_list_screen.dart';
 import 'package:couple_calendar/ui/home/view/home_screen.dart';
-import 'package:couple_calendar/ui/my_schedule/view/schedule_screen.dart';
+import 'package:couple_calendar/ui/schedule/view/schedule_screen.dart';
 import 'package:couple_calendar/ui/root/view_,model/root_view_model.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
@@ -16,6 +17,7 @@ import 'package:provider/provider.dart';
 
 enum RootType {
   HOME(homeIcon),
+  FRIENDS(friendListIcon),
   CALENDAR(calendarIcon),
   SETTING(settingIcon);
 
@@ -59,6 +61,7 @@ class _RootScreenState extends State<RootScreen> {
       value: viewModel,
       builder: (context, _) {
         return DefaultLayout(
+          resizeToAvoidBottomInset: false,
           child: Selector<RootViewModel, int>(
             selector: (_, vm) => vm.curTabIdx,
             builder: (_, curIdx, __) {
@@ -68,6 +71,7 @@ class _RootScreenState extends State<RootScreen> {
                     index: curIdx,
                     children: [
                       const HomeScreen(),
+                      const FriendListScreen(),
                       const ScheduleScreen(),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
@@ -128,9 +132,13 @@ class _RootScreenState extends State<RootScreen> {
                             child: ColorFiltered(
                               colorFilter:
                                   ColorFilter.mode(color, BlendMode.srcATop),
-                              child: SvgPicture.asset(
-                                e.icon,
-                                width: 26.toWidth,
+                              child: Builder(
+                                builder: (context) {
+                                  return SvgPicture.asset(
+                                    e.icon,
+                                    width: 26.toWidth,
+                                  );
+                                },
                               ),
                             ),
                           ),

@@ -7,9 +7,12 @@ import 'package:couple_calendar/ui/common/components/layout/default_layout.dart'
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../util/couple_style.dart';
+import '../../../util/validator.dart';
 import '../../common/components/custom_button/base_button.dart';
 import '../widget/select_gender_widget.dart';
 
@@ -57,6 +60,8 @@ class _AddUserInfoScreenState extends State<AddUserInfoScreen> {
             child: Column(
               children: [
                 _buildNameField(),
+                SizedBox(height: 4.toHeight),
+                _buildIdField(),
                 SizedBox(height: 16.toHeight),
                 SelectGenderWidget(onChanged: viewModel.setGender),
                 const Spacer(),
@@ -71,11 +76,15 @@ class _AddUserInfoScreenState extends State<AddUserInfoScreen> {
   }
 
   Widget _buildAddInfoButton() {
-    return StreamBuilder<FieldStatus>(
-      initialData: FieldStatus(),
-      stream: viewModel.nameController.statusStream!,
+    return StreamBuilder<bool>(
+      initialData: false,
+      stream: Rx.combineLatest2(
+        viewModel.nameController.statusStream!,
+        viewModel.idController.statusStream!,
+        (name, id) => name.isValid && id.isValid,
+      ),
       builder: (context, snapshot) {
-        final isReady = snapshot.data!.isValid;
+        final isReady = snapshot.data!;
         return CoupleButton(
           onPressed: isReady ? viewModel.onClickAddInfoBtn : null,
           option: CoupleButtonOption.fill(
@@ -94,6 +103,30 @@ class _AddUserInfoScreenState extends State<AddUserInfoScreen> {
       hintText: '이름을 입력하세요.',
       title: 'name',
       onChanged: viewModel.validateName,
+    );
+  }
+
+  Widget _buildIdField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CoupleTextField(
+          controller: viewModel.idController,
+          hintText: '아이디를 입력하세요.',
+          title: 'ID',
+          inputFormatters: [
+            FilteringTextInputFormatter.deny(Validator().kWhiteSpaceRegex),
+          ],
+          onChanged: viewModel.validateId,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 4.toWidth),
+          child: Text(
+            '* 내 친구가 나를 찾을 때 사용하는 ID 입니다.',
+            style: CoupleStyle.caption(color: CoupleStyle.coral050),
+          ),
+        ),
+      ],
     );
   }
 

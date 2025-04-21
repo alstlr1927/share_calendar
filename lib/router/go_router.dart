@@ -3,13 +3,13 @@ import 'package:couple_calendar/ui/auth/view/add_user_info_screen.dart';
 import 'package:couple_calendar/ui/auth/view/landing_screen.dart';
 import 'package:couple_calendar/ui/auth/view/login_screen.dart';
 import 'package:couple_calendar/ui/auth/view/signup_email_screen.dart';
-import 'package:couple_calendar/ui/my_schedule/view/schedule_detail_screen.dart';
-import 'package:couple_calendar/ui/my_schedule/view/schedule_form_screen.dart';
+import 'package:couple_calendar/ui/schedule/view/schedule_detail_screen.dart';
+import 'package:couple_calendar/ui/schedule/view/schedule_form_screen.dart';
 import 'package:couple_calendar/ui/root/view/root_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../ui/my_schedule/view/search_address_screen.dart';
+import '../ui/schedule/view/search_address_screen.dart';
 import '../ui/splash/view/splash_screen.dart';
 import 'router_observer.dart';
 

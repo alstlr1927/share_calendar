@@ -6,13 +6,14 @@ import 'package:couple_calendar/ui/common/components/date_picker_dialog/time_pic
 import 'package:couple_calendar/ui/common/components/logger/couple_logger.dart';
 import 'package:couple_calendar/ui/common/components/snack_bar/couple_noti.dart';
 import 'package:couple_calendar/ui/common/provider/loading_provider.dart';
-import 'package:couple_calendar/ui/my_schedule/model/schedule_model.dart';
-import 'package:couple_calendar/ui/my_schedule/repository/schedule_repository.dart';
-import 'package:couple_calendar/ui/my_schedule/widgets/tag_friends_bottom_sheet.dart';
+import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
+import 'package:couple_calendar/ui/schedule/repository/schedule_repository.dart';
+import 'package:couple_calendar/ui/schedule/widgets/tag_friends_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../auth/repository/user_repository.dart';
 import '../../common/provider/schedule_provider.dart';
 
 enum ScheduleFormType {
@@ -23,6 +24,7 @@ enum ScheduleFormType {
 class ScheduleFormViewModel extends ChangeNotifier {
   State state;
   DateTime selectDate;
+  String scheduleId;
 
   ScheduleFormType curForm = ScheduleFormType.CREATE;
 
@@ -56,30 +58,48 @@ class ScheduleFormViewModel extends ChangeNotifier {
 
   Future<void> onClickConfirmBtn() async {
     String completeText = '';
-    Provider.of<LoadingProvider>(state.context, listen: false)
-        .setIsLoading(true);
 
     // 이미 등록된 시간 체크 존재하면 return true
-    if (await ScheduleRepository()
-        .checkDuplicatedTime(startDate: startDate, endDate: endDate)) {
-      return;
+    if (await checkDuplicatedValidate()) {
+      Provider.of<LoadingProvider>(state.context, listen: false)
+          .setIsLoading(true);
+      if (curForm == ScheduleFormType.CREATE) {
+        completeText = '일정이 등록되었습니다.';
+        await createSchedule();
+      } else {
+        completeText = '일정이 수정되었습니다.';
+        await updateSchedule();
+      }
+
+      Provider.of<ScheduleProvider>(state.context, listen: false)
+          .getMySchedule(year: selectDate.year);
+
+      Provider.of<LoadingProvider>(state.context, listen: false)
+          .setIsLoading(false);
+
+      state.context.pop();
+    } else {
+      completeText = '일정이 이미 존재하는 시간대입니다.';
     }
+
+    CoupleNotification().notify(
+      title: completeText,
+      padding: MediaQuery.of(state.context).viewInsets.bottom,
+    );
+  }
+
+  Future<bool> checkDuplicatedValidate() async {
+    final existList = await ScheduleRepository()
+        .checkDuplicatedTime(startDate: startDate, endDate: endDate);
 
     if (curForm == ScheduleFormType.CREATE) {
-      completeText = '일정이 등록되었습니다.';
-      await createSchedule();
+      // 같은 시간대 일정 존재하면 불가
+      return existList.isEmpty;
     } else {
-      completeText = '일정이 수정되었습니다.';
+      // 같은 시간대 일정이 존재하지만 같은 id라면(수정일때) 허용
+      final ids = existList.map((e) => e.id).toList();
+      return ids.contains(scheduleId);
     }
-
-    Provider.of<ScheduleProvider>(state.context, listen: false)
-        .getMySchedule(year: selectDate.year);
-
-    Provider.of<LoadingProvider>(state.context, listen: false)
-        .setIsLoading(false);
-
-    state.context.pop();
-    CoupleNotification().notify(title: completeText);
   }
 
   Future<void> createSchedule() async {
@@ -98,7 +118,19 @@ class ScheduleFormViewModel extends ChangeNotifier {
   }
 
   Future<void> updateSchedule() async {
-    //
+    final memberIdList = memberUserList.map((e) => e.uid).toList();
+    await ScheduleRepository().updateMySchedule(
+      id: scheduleId,
+      title: titleController.getStatus.text,
+      content: contentController.getStatus.text,
+      theme: curTheme,
+      location: locationController.getStatus.text,
+      latitude: latitude,
+      longitude: longitude,
+      startDate: startDate,
+      endDate: endDate,
+      memberIds: memberIdList,
+    );
   }
 
   Future<void> onClickTagFriend() async {
@@ -173,7 +205,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
       endDate = DateTime(res.year, res.month, res.day, res.hour + 1);
     }
 
-    startDate = res;
+    startDate = DateTime(res.year, res.month, res.day, res.hour, res.minute, 1);
     debugPrint('res : $res');
 
     debugPrint('isBefore : ${startDate.isBefore(endDate)}');
@@ -252,8 +284,11 @@ class ScheduleFormViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  ScheduleFormViewModel(this.state, this.selectDate,
-      {required String scheduleId}) {
+  ScheduleFormViewModel(
+    this.state,
+    this.selectDate, {
+    required this.scheduleId,
+  }) {
     if (scheduleId.isNotEmpty) {
       curForm = ScheduleFormType.UPDATE;
       _updateInitSetting(scheduleId: scheduleId);
@@ -285,15 +320,28 @@ class ScheduleFormViewModel extends ChangeNotifier {
       return;
     }
     debugPrint('model : ${model.toJson()}');
+
     titleController = FieldController(initText: model.title);
     contentController = FieldController(initText: model.content);
     locationController = FieldController(initText: model.location);
     locationController.setIsEnable(false);
+
     _curTheme = model.theme;
     startDate = model.startDate;
     endDate = model.endDate;
+    latitude = model.latitude;
+    longitude = model.longitude;
 
     setIsReady(true);
+    notifyListeners();
+
+    _getUserList(uids: model.memberIds);
+  }
+
+  Future<void> _getUserList({required List<String> uids}) async {
+    final list = await UserRepository().getUserListByQuery(uidList: uids);
+
+    setMemberUserList(list);
     notifyListeners();
   }
 
@@ -303,9 +351,11 @@ class ScheduleFormViewModel extends ChangeNotifier {
     contentController = FieldController();
     locationController = FieldController();
     locationController.setIsEnable(false);
+
     startDate =
         DateTime(selectDate.year, selectDate.month, selectDate.day, now.hour);
     endDate = startDate.add(const Duration(hours: 1));
+    startDate = startDate.add(const Duration(seconds: 1));
 
     setIsReady(true);
     notifyListeners();

@@ -4,7 +4,8 @@ import 'package:couple_calendar/ui/common/components/couple_text_field/couple_te
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
-import 'package:couple_calendar/ui/my_schedule/view_model/schedule_form_view_model.dart';
+import 'package:couple_calendar/ui/schedule/view_model/schedule_form_view_model.dart';
+import 'package:couple_calendar/ui/schedule/widgets/friends_circle_widget.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
@@ -163,10 +164,12 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
                       children: [
                         SizedBox(width: 3.toWidth),
                         ...list
-                            .map((e) => _friendCircle(e))
-                            .superJoin(
-                              SizedBox(width: 0.toWidth),
-                            )
+                            .map((e) => FriendsCircleWidget(
+                                  friend: e,
+                                  onPressed: () =>
+                                      viewModel.onClickRemoveFriend(e.uid),
+                                ) as Widget)
+                            .superJoin(SizedBox(width: 0.toWidth))
                             .toList(),
                       ],
                     ),
@@ -177,66 +180,6 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
           },
         ),
       ],
-    );
-  }
-
-  Widget _friendCircle(UserModel friend) {
-    return BaseButton(
-      onPressed: () => viewModel.onClickRemoveFriend(friend.uid),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 46.toWidth,
-            height: 46.toWidth,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 40.toWidth,
-                    height: 40.toWidth,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: CachedNetworkImageProvider(friend.profileImg),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                    width: 16.toWidth,
-                    height: 16.toWidth,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: CoupleStyle.coral050,
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.remove,
-                        size: 16,
-                        color: CoupleStyle.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 46.toWidth,
-            child: Text(
-              friend.username,
-              style: CoupleStyle.overline(),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),
-        ],
-      ),
     );
   }
 

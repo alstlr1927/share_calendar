@@ -1,8 +1,8 @@
 import 'package:couple_calendar/router/couple_router.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/drag_to_dispose/drag_to_dispose.dart';
-import 'package:couple_calendar/ui/my_schedule/model/schedule_model.dart';
-import 'package:couple_calendar/ui/my_schedule/widgets/schedule_list_item.dart';
+import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
+import 'package:couple_calendar/ui/schedule/widgets/schedule_list_item.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
