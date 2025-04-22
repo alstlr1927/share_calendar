@@ -53,10 +53,11 @@ class CoupleRouter {
     BuildContext context, {
     String scheduleId = '',
     required DateTime date,
+    List<String> memberUids = const [],
   }) async {
     return await context.pushNamed(
       ScheduleFormScreen.routeName,
-      extra: {'id': scheduleId, 'date': date},
+      extra: {'id': scheduleId, 'date': date, 'member_uids': memberUids},
     );
   }
 

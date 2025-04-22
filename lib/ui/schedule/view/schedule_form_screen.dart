@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/couple_text_field.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
@@ -20,11 +19,13 @@ class ScheduleFormScreen extends StatefulWidget {
 
   final String scheduleId;
   final DateTime selectDate;
+  final List<String> memberUids;
 
   const ScheduleFormScreen({
     super.key,
     this.scheduleId = '',
     required this.selectDate,
+    this.memberUids = const [],
   });
 
   @override
@@ -164,7 +165,7 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
                       children: [
                         SizedBox(width: 3.toWidth),
                         ...list
-                            .map((e) => FriendsCircleWidget(
+                            .map((e) => FriendsCircleWidget.forForm(
                                   friend: e,
                                   onPressed: () =>
                                       viewModel.onClickRemoveFriend(e.uid),

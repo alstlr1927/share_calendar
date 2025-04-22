@@ -15,6 +15,7 @@ const String settingIcon = 'assets/icons/common/setting_icon.svg';
 const String moreIcon = 'assets/icons/common/more_icon.svg';
 const String copyIcon = 'assets/icons/common/copy_icon.svg';
 const String friendListIcon = 'assets/icons/common/friend_icon.svg';
+const String addScheduleIcon = 'assets/icons/common/add_schedule_icon.svg';
 
 // login
 const String appleLogoIcon = 'assets/icons/login/apple_logo.svg';

@@ -78,6 +78,7 @@ class FriendsCircleWidget extends StatelessWidget {
               style: CoupleStyle.overline(),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
+              textAlign: TextAlign.center,
             ),
           ),
         ],

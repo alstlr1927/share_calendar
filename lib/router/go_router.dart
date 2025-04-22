@@ -67,9 +67,11 @@ final router = GoRouter(
             final data = state.extra as Map<String, dynamic>;
             final id = data['id'] as String;
             final date = data['date'] as DateTime;
+            final memberUids = data['member_uids'] as List<String>;
             return ScheduleFormScreen(
               scheduleId: id,
               selectDate: date,
+              memberUids: memberUids,
             );
           },
         ),

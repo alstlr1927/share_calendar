@@ -8,6 +8,7 @@ import 'package:couple_calendar/ui/common/components/snack_bar/couple_noti.dart'
 import 'package:couple_calendar/ui/common/provider/loading_provider.dart';
 import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
 import 'package:couple_calendar/ui/schedule/repository/schedule_repository.dart';
+import 'package:couple_calendar/ui/schedule/view/schedule_form_screen.dart';
 import 'package:couple_calendar/ui/schedule/widgets/tag_friends_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ enum ScheduleFormType {
 }
 
 class ScheduleFormViewModel extends ChangeNotifier {
-  State state;
+  State<ScheduleFormScreen> state;
   DateTime selectDate;
   String scheduleId;
 
@@ -359,6 +360,9 @@ class ScheduleFormViewModel extends ChangeNotifier {
 
     setIsReady(true);
     notifyListeners();
+    if (state.widget.memberUids.isNotEmpty) {
+      _getUserList(uids: state.widget.memberUids);
+    }
   }
 
   List<int> colorList = [

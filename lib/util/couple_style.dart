@@ -294,16 +294,16 @@ class CoupleStyle {
 
   static ThemeData coupleTheme = ThemeData(
     fontFamily: 'pretendard',
-    scaffoldBackgroundColor: CoupleStyle.white,
+    scaffoldBackgroundColor: white,
     appBarTheme: AppBarTheme(
       centerTitle: true,
-      titleTextStyle: CoupleStyle.body1(
+      titleTextStyle: body1(
         weight: FontWeight.w600,
-        color: CoupleStyle.gray090,
+        color: gray090,
       ),
-      toolbarHeight: CoupleStyle.appbarHeight,
-      iconTheme: const IconThemeData(color: CoupleStyle.gray090),
-      backgroundColor: CoupleStyle.white,
+      toolbarHeight: appbarHeight,
+      iconTheme: const IconThemeData(color: gray090),
+      backgroundColor: white,
       elevation: 0,
       scrolledUnderElevation: 0,
     ),
