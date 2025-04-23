@@ -17,15 +17,11 @@ import '../model/schedule_model.dart';
 class ScheduleFormScreen extends StatefulWidget {
   static String get routeName => 'schedule_form';
 
-  final String scheduleId;
-  final DateTime selectDate;
-  final List<String> memberUids;
+  final ScheduleModel schedule;
 
   const ScheduleFormScreen({
     super.key,
-    this.scheduleId = '',
-    required this.selectDate,
-    this.memberUids = const [],
+    required this.schedule,
   });
 
   @override
@@ -40,8 +36,7 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
     super.initState();
     viewModel = ScheduleFormViewModel(
       this,
-      widget.selectDate,
-      scheduleId: widget.scheduleId,
+      schedule: widget.schedule,
     );
   }
 

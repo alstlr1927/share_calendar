@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kpostal/kpostal.dart';
 
+import '../ui/schedule/model/schedule_model.dart';
+
 const pageTransitionDuration = Duration(milliseconds: 400);
 
 class CoupleRouter {
@@ -49,16 +51,10 @@ class CoupleRouter {
     );
   }
 
-  loadScheduleForm(
-    BuildContext context, {
-    String scheduleId = '',
-    required DateTime date,
-    List<String> memberUids = const [],
-  }) async {
-    return await context.pushNamed(
-      ScheduleFormScreen.routeName,
-      extra: {'id': scheduleId, 'date': date, 'member_uids': memberUids},
-    );
+  loadScheduleForm(BuildContext context,
+      {required ScheduleModel schedule}) async {
+    return await context.pushNamed(ScheduleFormScreen.routeName,
+        extra: schedule);
   }
 
   Future<Kpostal?> loadSearchAddress(BuildContext context) async {

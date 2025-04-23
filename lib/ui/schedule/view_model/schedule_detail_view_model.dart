@@ -86,8 +86,7 @@ class ScheduleDetailViewModel extends ChangeNotifier {
   Future<void> onClickModifyBtn() async {
     await CoupleRouter().loadScheduleForm(
       state.context,
-      scheduleId: schedule.id,
-      date: schedule.startDate,
+      schedule: schedule,
     );
   }
 

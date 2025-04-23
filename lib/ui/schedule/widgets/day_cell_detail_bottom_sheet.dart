@@ -95,10 +95,21 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                   child: CoupleButton(
-                    onPressed: () => CoupleRouter().loadScheduleForm(
-                      context,
-                      date: widget.date,
-                    ),
+                    onPressed: () {
+                      final now = DateTime.now();
+                      final date = widget.date;
+                      DateTime startDt =
+                          DateTime(date.year, date.month, date.day, now.hour);
+                      DateTime endDt = startDt.add(const Duration(hours: 1));
+                      startDt = startDt.add(const Duration(seconds: 1));
+
+                      final schedule = ScheduleModel(
+                        startDate: startDt,
+                        endDate: endDt,
+                      );
+                      CoupleRouter()
+                          .loadScheduleForm(context, schedule: schedule);
+                    },
                     option: CoupleButtonOption.fill(
                       text: '+ 할일을 추가 해보세요.',
                       theme: CoupleButtonFillTheme.lightMagenta,

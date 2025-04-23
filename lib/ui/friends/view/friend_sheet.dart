@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import '../../../util/couple_style.dart';
 import '../../auth/model/user_model.dart';
 import '../../common/components/drag_to_dispose/drag_to_dispose.dart';
+import '../../schedule/model/schedule_model.dart';
 
 class FriendSheet extends StatefulWidget {
   final UserModel friend;
@@ -116,12 +117,26 @@ class _FriendSheetState extends State<FriendSheet> {
   Widget _iconButton() {
     return BaseButton(
       onPressed: () {
-        CoupleRouter().loadScheduleForm(
-          context,
-          date: DateTime.now(),
-          memberUids: [widget.friend.uid],
+        final now = DateTime.now();
+        DateTime startDt = DateTime(now.year, now.month, now.day, now.hour);
+        DateTime endDt = startDt.add(const Duration(hours: 1));
+        startDt = startDt.add(const Duration(seconds: 1));
+
+        final schedule = ScheduleModel(
+          startDate: startDt,
+          endDate: endDt,
+          memberIds: [widget.friend.uid],
         );
+        CoupleRouter().loadScheduleForm(context, schedule: schedule);
       },
+      // onPressed: () {
+
+      //   CoupleRouter().loadScheduleForm(
+      //     context,
+      //     date: DateTime.now(),
+      //     memberUids: [widget.friend.uid],
+      //   );
+      // },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

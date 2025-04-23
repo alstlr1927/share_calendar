@@ -53,5 +53,7 @@
 	<string>프로필 이미지 설정을 위해 사진 접근이 필요합니다.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>일정 장소를 위해 위치 정보 접근이 필요합니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>이 앱은 일정 공유 및 위치 기반 알림을 위해 백그라운드에서도 위치를 사용합니다.</string>
 </dict>
 </plist>

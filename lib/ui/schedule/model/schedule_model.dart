@@ -57,34 +57,30 @@ class ScheduleModel {
   final DateTime endDate;
 
   @JsonKey(name: 'created_at', fromJson: DataUtils.parseDateTime)
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   @JsonKey(name: 'updated_at', fromJson: DataUtils.parseDateTime)
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   @JsonKey(name: 'is_able', fromJson: DataUtils.parseBoolean)
   final bool isAble;
 
-  @JsonKey(name: 'is_complete', fromJson: DataUtils.parseBoolean)
-  final bool isComplete;
-
   ScheduleModel({
-    required this.id,
-    required this.title,
-    required this.type,
-    required this.content,
-    required this.theme,
-    required this.ownerUserId,
-    required this.memberIds,
-    required this.location,
-    required this.latitude,
-    required this.longitude,
+    this.id = '',
+    this.title = '',
+    this.type = '',
+    this.content = '',
+    this.theme = ScheduleTheme.VIOLET,
+    this.ownerUserId = '',
+    this.memberIds = const [],
+    this.location = '',
+    this.latitude = .0,
+    this.longitude = .0,
     required this.startDate,
     required this.endDate,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.isAble,
-    required this.isComplete,
+    this.createdAt,
+    this.updatedAt,
+    this.isAble = true,
   });
 
   factory ScheduleModel.fromJson(Map<String, dynamic> json) =>
@@ -109,7 +105,6 @@ class ScheduleModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     bool? isAble,
-    bool? isComplete,
   }) =>
       ScheduleModel(
         id: id ?? this.id,
@@ -127,6 +122,5 @@ class ScheduleModel {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         isAble: isAble ?? this.isAble,
-        isComplete: isComplete ?? this.isComplete,
       );
 }

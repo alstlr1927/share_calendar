@@ -3,7 +3,6 @@ import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/field_controller.dart';
 import 'package:couple_calendar/ui/common/components/date_picker_dialog/date_picker_dialog.dart';
 import 'package:couple_calendar/ui/common/components/date_picker_dialog/time_picker_dialog.dart';
-import 'package:couple_calendar/ui/common/components/logger/couple_logger.dart';
 import 'package:couple_calendar/ui/common/components/snack_bar/couple_noti.dart';
 import 'package:couple_calendar/ui/common/provider/loading_provider.dart';
 import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
@@ -24,14 +23,14 @@ enum ScheduleFormType {
 
 class ScheduleFormViewModel extends ChangeNotifier {
   State<ScheduleFormScreen> state;
-  DateTime selectDate;
-  String scheduleId;
+  ScheduleModel schedule;
 
   ScheduleFormType curForm = ScheduleFormType.CREATE;
 
   late FieldController titleController;
   late FieldController contentController;
   late FieldController locationController;
+
   double? latitude;
   double? longitude;
 
@@ -73,7 +72,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
       }
 
       Provider.of<ScheduleProvider>(state.context, listen: false)
-          .getMySchedule(year: selectDate.year);
+          .getMySchedule(year: schedule.startDate.year);
 
       Provider.of<LoadingProvider>(state.context, listen: false)
           .setIsLoading(false);
@@ -99,7 +98,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
     } else {
       // 같은 시간대 일정이 존재하지만 같은 id라면(수정일때) 허용
       final ids = existList.map((e) => e.id).toList();
-      return ids.contains(scheduleId);
+      return ids.contains(schedule.id);
     }
   }
 
@@ -121,7 +120,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
   Future<void> updateSchedule() async {
     final memberIdList = memberUserList.map((e) => e.uid).toList();
     await ScheduleRepository().updateMySchedule(
-      id: scheduleId,
+      id: schedule.id,
       title: titleController.getStatus.text,
       content: contentController.getStatus.text,
       theme: curTheme,
@@ -186,8 +185,10 @@ class ScheduleFormViewModel extends ChangeNotifier {
 
     locationController.textController?.text = res.address;
     locationController.setText(res.address);
+
     latitude = res.latitude;
     longitude = res.longitude;
+
     notifyListeners();
   }
 
@@ -285,58 +286,32 @@ class ScheduleFormViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  ScheduleFormViewModel(
-    this.state,
-    this.selectDate, {
-    required this.scheduleId,
-  }) {
-    if (scheduleId.isNotEmpty) {
+  ScheduleFormViewModel(this.state, {required this.schedule}) {
+    _initSetting();
+  }
+
+  void _initSetting() {
+    if (schedule.id.isNotEmpty) {
       curForm = ScheduleFormType.UPDATE;
-      _updateInitSetting(scheduleId: scheduleId);
-    } else {
-      _createInitSetting();
     }
-  }
 
-  Future<ScheduleModel?> _getMyScheduleById({
-    required String scheduleId,
-  }) async {
-    final rawData =
-        await ScheduleRepository().getScheduleDataById(id: scheduleId);
-
-    if (rawData != null) {
-      try {
-        return ScheduleModel.fromJson(rawData);
-      } catch (e, trace) {
-        CoupleLog().e('error : $e');
-        CoupleLog().e('$trace');
-      }
-    }
-    return null;
-  }
-
-  void _updateInitSetting({required String scheduleId}) async {
-    final model = await _getMyScheduleById(scheduleId: scheduleId);
-    if (model == null) {
-      return;
-    }
-    debugPrint('model : ${model.toJson()}');
-
-    titleController = FieldController(initText: model.title);
-    contentController = FieldController(initText: model.content);
-    locationController = FieldController(initText: model.location);
+    titleController = FieldController(initText: schedule.title);
+    contentController = FieldController(initText: schedule.content);
+    locationController = FieldController(initText: schedule.location);
     locationController.setIsEnable(false);
 
-    _curTheme = model.theme;
-    startDate = model.startDate;
-    endDate = model.endDate;
-    latitude = model.latitude;
-    longitude = model.longitude;
+    _curTheme = schedule.theme;
+    startDate = schedule.startDate;
+    endDate = schedule.endDate;
+    latitude = schedule.latitude;
+    longitude = schedule.longitude;
 
     setIsReady(true);
     notifyListeners();
 
-    _getUserList(uids: model.memberIds);
+    if (schedule.memberIds.isNotEmpty) {
+      _getUserList(uids: schedule.memberIds);
+    }
   }
 
   Future<void> _getUserList({required List<String> uids}) async {
@@ -344,25 +319,6 @@ class ScheduleFormViewModel extends ChangeNotifier {
 
     setMemberUserList(list);
     notifyListeners();
-  }
-
-  void _createInitSetting() {
-    DateTime now = DateTime.now();
-    titleController = FieldController();
-    contentController = FieldController();
-    locationController = FieldController();
-    locationController.setIsEnable(false);
-
-    startDate =
-        DateTime(selectDate.year, selectDate.month, selectDate.day, now.hour);
-    endDate = startDate.add(const Duration(hours: 1));
-    startDate = startDate.add(const Duration(seconds: 1));
-
-    setIsReady(true);
-    notifyListeners();
-    if (state.widget.memberUids.isNotEmpty) {
-      _getUserList(uids: state.widget.memberUids);
-    }
   }
 
   List<int> colorList = [

@@ -3,6 +3,7 @@ import 'package:couple_calendar/ui/auth/view/add_user_info_screen.dart';
 import 'package:couple_calendar/ui/auth/view/landing_screen.dart';
 import 'package:couple_calendar/ui/auth/view/login_screen.dart';
 import 'package:couple_calendar/ui/auth/view/signup_email_screen.dart';
+import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
 import 'package:couple_calendar/ui/schedule/view/schedule_detail_screen.dart';
 import 'package:couple_calendar/ui/schedule/view/schedule_form_screen.dart';
 import 'package:couple_calendar/ui/root/view/root_screen.dart';
@@ -64,15 +65,9 @@ final router = GoRouter(
           path: '/schedule_form',
           name: ScheduleFormScreen.routeName,
           builder: (_, state) {
-            final data = state.extra as Map<String, dynamic>;
-            final id = data['id'] as String;
-            final date = data['date'] as DateTime;
-            final memberUids = data['member_uids'] as List<String>;
-            return ScheduleFormScreen(
-              scheduleId: id,
-              selectDate: date,
-              memberUids: memberUids,
-            );
+            final schedule = state.extra as ScheduleModel;
+
+            return ScheduleFormScreen(schedule: schedule);
           },
         ),
         GoRoute(
