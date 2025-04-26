@@ -5,6 +5,7 @@ import 'package:couple_calendar/ui/common/components/custom_button/couple_button
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,7 @@ class _SignupEmailScreenState extends State<SignupEmailScreen> {
       value: viewModel,
       builder: (context, _) {
         return DefaultLayout(
-          title: '회원가입',
+          title: tr('signup_title'),
           onPressed: viewModel.focusout,
           resizeToAvoidBottomInset: false,
           child: Padding(
@@ -65,7 +66,7 @@ class _SignupEmailScreenState extends State<SignupEmailScreen> {
     return Padding(
       padding: EdgeInsets.only(left: 4.toWidth, top: 2.toHeight),
       child: Text(
-        '* 실제로 존재하지 않는 이메일을 사용할 경우 비밀번호 찾기가 제한될 수 있습니다.',
+        tr('invalid_email_notice_txt'),
         style: CoupleStyle.overline(
           weight: FontWeight.w500,
           color: CoupleStyle.gray060,
@@ -88,7 +89,7 @@ class _SignupEmailScreenState extends State<SignupEmailScreen> {
         return CoupleButton(
           onPressed: isReady ? viewModel.onClickRegistBtn : null,
           option: CoupleButtonOption.fill(
-            text: '가입하기',
+            text: tr('signup_btn_txt'),
             theme: CoupleButtonFillTheme.lightMagenta,
             style: CoupleButtonFillStyle.fullRegular,
           ),
@@ -103,7 +104,7 @@ class _SignupEmailScreenState extends State<SignupEmailScreen> {
       children: [
         CoupleTextField(
           controller: viewModel.idController,
-          hintText: '이메일을 입력해주세요.',
+          hintText: tr('input_email_hint_txt'),
           title: 'email',
           keyboardType: TextInputType.emailAddress,
           inputFormatters: [
@@ -116,7 +117,7 @@ class _SignupEmailScreenState extends State<SignupEmailScreen> {
         _buildTitle(),
         CoupleTextField(
           controller: viewModel.pwController,
-          hintText: '비밀번호를 입력해주세요.',
+          hintText: tr('input_pw_hint_txt'),
           isObscure: true,
           title: 'password',
           keyboardType: TextInputType.text,
@@ -128,7 +129,7 @@ class _SignupEmailScreenState extends State<SignupEmailScreen> {
         ),
         CoupleTextField(
           controller: viewModel.checkController,
-          hintText: '비밀번호를 다시 입력해주세요.',
+          hintText: tr('input_pw_check_hint_txt'),
           isObscure: true,
           title: 'password',
           keyboardType: TextInputType.text,

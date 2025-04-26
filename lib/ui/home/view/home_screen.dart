@@ -1,6 +1,7 @@
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
 import 'package:couple_calendar/ui/home/view_model/home_view_model.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         children: [
           Text(
-            '오늘 일정',
+            tr('home_title'),
             style: CoupleStyle.h3(
               color: CoupleStyle.gray090,
               weight: FontWeight.w600,

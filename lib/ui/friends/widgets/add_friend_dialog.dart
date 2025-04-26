@@ -60,8 +60,8 @@ class _AddFriendDialogState extends State<AddFriendDialog> {
                 CoupleButton(
                   onPressed: () async {
                     final id = controller.getStatus.text.trim();
-                    final data =
-                        await UserRepository().getUserProfileById(userId: id);
+                    final data = await UserRepository()
+                        .getUserProfileByUserId(userId: id);
 
                     if (data != null) {
                       findUser = UserModel.fromJson(data);

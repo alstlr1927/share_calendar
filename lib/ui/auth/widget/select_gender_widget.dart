@@ -2,6 +2,7 @@ import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SelectGenderWidget extends StatefulWidget {
@@ -44,7 +45,7 @@ class _SelectGenderWidgetState extends State<SelectGenderWidget> {
   }
 
   Widget _buildGenderButton(UserGender gender) {
-    final text = gender == UserGender.NONE ? '설정안함' : gender.typeKr;
+    final text = tr(gender.typeKr);
     final baseColor =
         gender == curGender ? CoupleStyle.primary050 : CoupleStyle.gray030;
     final textColor =

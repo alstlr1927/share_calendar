@@ -1,6 +1,7 @@
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:couple_calendar/util/images.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class HeroAppLogo extends StatelessWidget {
@@ -22,7 +23,7 @@ class HeroAppLogo extends StatelessWidget {
               width: 200.toWidth,
             ),
             Text(
-              '가치있게 같이있는',
+              tr('app_splash_title'),
               style: CoupleStyle.h3(
                 color: CoupleStyle.primary050,
                 weight: FontWeight.w600,

@@ -10,20 +10,22 @@ import 'package:couple_calendar/ui/root/view_,model/root_view_model.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:couple_calendar/util/images.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 enum RootType {
-  HOME(homeIcon),
-  FRIENDS(friendListIcon),
-  CALENDAR(calendarIcon),
-  SETTING(settingIcon);
+  HOME(homeIcon, 'home_tab_txt'),
+  FRIENDS(friendListIcon, 'friends_tab_txt'),
+  CALENDAR(calendarIcon, 'calendar_tab_txt'),
+  SETTING(settingIcon, 'settings_tab_txt');
 
-  const RootType(this.icon);
+  const RootType(this.icon, this.title);
 
   final String icon;
+  final String title;
 }
 
 class RootScreen extends StatefulWidget {
@@ -81,7 +83,7 @@ class _RootScreenState extends State<RootScreen> {
                               AuthService().userSignout();
                             },
                             option: CoupleButtonOption.fill(
-                              text: '로그아웃',
+                              text: tr('signout_btn_txt'),
                               theme: CoupleButtonFillTheme.lightMagenta,
                               style: CoupleButtonFillStyle.fullRegular,
                             ),
@@ -129,17 +131,29 @@ class _RootScreenState extends State<RootScreen> {
                         child: SizedBox(
                           width: double.infinity,
                           child: Center(
-                            child: ColorFiltered(
-                              colorFilter:
-                                  ColorFilter.mode(color, BlendMode.srcATop),
-                              child: Builder(
-                                builder: (context) {
-                                  return SvgPicture.asset(
-                                    e.icon,
-                                    width: 26.toWidth,
-                                  );
-                                },
-                              ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                      color, BlendMode.srcATop),
+                                  child: Builder(
+                                    builder: (context) {
+                                      return SvgPicture.asset(
+                                        e.icon,
+                                        width: 26.toWidth,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: 4.toHeight),
+                                Text(
+                                  tr(e.title),
+                                  style: CoupleStyle.overline(
+                                    color: color,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

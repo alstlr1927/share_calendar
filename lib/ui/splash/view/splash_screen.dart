@@ -33,11 +33,6 @@ class _SplashScreenState extends State<SplashScreen> {
     return DefaultLayout(
       child: Stack(
         children: [
-          // Image.asset(
-          //   splashBgImg,
-          //   height: double.infinity,
-          //   fit: BoxFit.cover,
-          // ),
           Align(
             alignment: Alignment.center,
             child: const HeroAppLogo(),

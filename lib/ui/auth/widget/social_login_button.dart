@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:couple_calendar/ui/auth/type/auth_type.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -39,7 +40,7 @@ class OtherLoginWidget extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: Text(
-                '또는',
+                tr('or_txt'),
                 style: CoupleStyle.body2(color: CoupleStyle.gray080),
               )),
           Expanded(child: DefaultDivider()),
@@ -110,7 +111,7 @@ class SocialLoginButton extends StatelessWidget {
             SvgPicture.asset(type.icon),
             SizedBox(width: 6.toWidth),
             Text(
-              type.title,
+              tr(type.title),
               style: CoupleStyle.body2(
                 color: textColor,
                 weight: FontWeight.w600,

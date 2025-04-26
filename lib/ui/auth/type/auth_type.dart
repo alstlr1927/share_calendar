@@ -5,17 +5,17 @@ import '../../../util/couple_style.dart';
 
 enum SocialLoginButtonType {
   APPLE(
-    title: 'Apple로 등록',
+    title: 'signup_apple',
     color: CoupleStyle.black,
     icon: appleLogoIcon,
   ),
   GOOGLE(
-    title: 'Google로 가입하기',
+    title: 'signup_google',
     color: CoupleStyle.white,
     icon: googleLogoIcon,
   ),
   KAKAO(
-    title: '카카오 1초 회원가입',
+    title: 'signup_kakao',
     color: Color(0xFFFEE500),
     icon: kakaoLogoIcon,
   );

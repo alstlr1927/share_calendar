@@ -1,6 +1,7 @@
 import 'package:couple_calendar/service/auth_service.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/field_controller.dart';
 import 'package:couple_calendar/util/validator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -30,7 +31,10 @@ class LoginViewModel extends ChangeNotifier {
     if (text.isEmpty) return;
 
     if (text.length < 6) {
-      pwController.setErrorText('최소 6자 이상 입력해주세요.');
+      pwController.setErrorText(tr(
+        'min_length_error_txt',
+        namedArgs: {'length': '6'},
+      ));
       pwController.setHasError(true);
       pwController.setIsValid(false);
     } else {
@@ -45,7 +49,7 @@ class LoginViewModel extends ChangeNotifier {
     if (text.isEmpty) return;
 
     if (!Validator.isValidEmail(text)) {
-      idController.setErrorText('올바른 이메일 주소를 입력해주세요.');
+      idController.setErrorText(tr('invalid_email_error_txt'));
       idController.setHasError(true);
       idController.setIsValid(false);
     } else {

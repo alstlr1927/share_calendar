@@ -7,6 +7,7 @@ import 'package:couple_calendar/ui/common/components/layout/default_layout.dart'
 import 'package:couple_calendar/ui/common/widgets/hero_app_logo.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +83,7 @@ class _LandingScreenState extends State<LandingScreen> {
           child: CoupleButton(
             onPressed: viewModel.navigateToLogin,
             option: CoupleButtonOption.text(
-              text: '로그인 하기',
+              text: tr('signin_email'),
               theme: CoupleButtonTextTheme.gray,
               style: CoupleButtonTextStyle.regular,
             ),
@@ -97,7 +98,7 @@ class _LandingScreenState extends State<LandingScreen> {
           child: CoupleButton(
             onPressed: viewModel.navigateToSignupEmail,
             option: CoupleButtonOption.text(
-              text: '이메일로 시작',
+              text: tr('signup_email'),
               theme: CoupleButtonTextTheme.gray,
               style: CoupleButtonTextStyle.regular,
             ),

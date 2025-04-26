@@ -1,6 +1,7 @@
 import 'package:couple_calendar/service/auth_service.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/field_controller.dart';
 import 'package:couple_calendar/util/validator.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SignupEmailViewModel extends ChangeNotifier {
@@ -21,7 +22,7 @@ class SignupEmailViewModel extends ChangeNotifier {
     if (text.isEmpty) return;
 
     if (!Validator.isValidEmail(text)) {
-      idController.setErrorText('올바른 이메일 주소를 입력해주세요.');
+      idController.setErrorText(tr('invalid_email_error_txt'));
       idController.setHasError(true);
       idController.setIsValid(false);
     } else {
@@ -36,7 +37,7 @@ class SignupEmailViewModel extends ChangeNotifier {
     if (text.isEmpty) return;
 
     if (!Validator.validPasswordPattern(text)) {
-      pwController.setErrorText('영문 대/소문자, 숫자, 특수문자를 조합하여 8자 이상 입력해주세요.');
+      pwController.setErrorText(tr('invalid_pw_error_txt'));
       pwController.setHasError(true);
       pwController.setIsValid(false);
     } else {
@@ -46,7 +47,7 @@ class SignupEmailViewModel extends ChangeNotifier {
     }
 
     if (text != checkController.getStatus.text.trim()) {
-      checkController.setErrorText('비밀번호가 일치하지 않습니다.');
+      checkController.setErrorText(tr('invalid_pw_check_error_txt'));
       checkController.setHasError(true);
       checkController.setIsValid(false);
     } else {
@@ -61,7 +62,7 @@ class SignupEmailViewModel extends ChangeNotifier {
     if (text.isEmpty) return;
 
     if (text != pwController.getStatus.text.trim()) {
-      checkController.setErrorText('비밀번호가 일치하지 않습니다.');
+      checkController.setErrorText(tr('invalid_pw_check_error_txt'));
       checkController.setHasError(true);
       checkController.setIsValid(false);
     } else {

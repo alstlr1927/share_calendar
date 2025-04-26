@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class RootViewModel extends ChangeNotifier {
   State state;
 
-  int _curTabIdx = 1;
+  int _curTabIdx = 2;
   int get curTabIdx => _curTabIdx;
 
   void setCurTabIdx(int idx) {

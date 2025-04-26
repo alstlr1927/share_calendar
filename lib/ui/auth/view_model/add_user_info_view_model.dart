@@ -4,6 +4,7 @@ import 'package:couple_calendar/ui/auth/repository/user_repository.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/field_controller.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/dialog/couple_text_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,21 +26,53 @@ class AddUserInfoViewModel extends ChangeNotifier {
     _gender = gender;
   }
 
+  // true => 사용가능
+  Future<bool> checkDuplicatedId({required String userId}) async {
+    final res = await UserRepository().getUserProfileByUserId(userId: userId);
+    return res == null;
+  }
+
   Future<void> onClickAddInfoBtn() async {
     final name = nameController.getStatus.text.trim();
     final id = idController.getStatus.text.trim();
 
-    final res = await UserRepository().setUserInfoData(
-      name: name,
-      gender: gender,
-      userId: id,
-    );
+    if (await checkDuplicatedId(userId: id)) {
+      final res = await UserRepository().setUserInfoData(
+        name: name,
+        gender: gender,
+        userId: id,
+      );
 
-    if (res) {
-      CoupleRouter().replaceRoot(state.context);
+      if (res) {
+        CoupleRouter().replaceRoot(state.context);
+      } else {
+        _showErrorDialog();
+      }
     } else {
-      _showErrorDialog();
+      showAlertDialog();
     }
+  }
+
+  void showAlertDialog() {
+    showDialog(
+      context: state.context,
+      builder: (context) => CoupleDialog(
+        option: CoupleDialogOption.normal(
+          header: DialogHeader(text: tr('dialog_common_title')),
+          body: DialogBody(text: tr('already_exist_id_error_txt')),
+          actions: [
+            DialogAction(
+              onPressed: context.pop,
+              buttonOption: CoupleButtonOption.fill(
+                text: tr('confirm_btn_txt'),
+                theme: CoupleButtonFillTheme.gray,
+                style: CoupleButtonFillStyle.fullSmall,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void validateName(String text) {
@@ -51,7 +84,10 @@ class AddUserInfoViewModel extends ChangeNotifier {
       nameController.setIsValid(true);
       nameController.setIsEnable(true);
     } else {
-      nameController.setErrorText('최소 2자 이상 입력해주세요.');
+      nameController.setErrorText(tr(
+        'min_length_error_txt',
+        namedArgs: {'length': '2'},
+      ));
       nameController.setHasError(true);
       nameController.setIsValid(false);
     }
@@ -66,7 +102,10 @@ class AddUserInfoViewModel extends ChangeNotifier {
       idController.setIsValid(true);
       idController.setIsEnable(true);
     } else {
-      idController.setErrorText('최소 5자 이상 입력해주세요.');
+      idController.setErrorText(tr(
+        'min_length_error_txt',
+        namedArgs: {'length': '5'},
+      ));
       idController.setHasError(true);
       idController.setIsValid(false);
     }
@@ -77,13 +116,13 @@ class AddUserInfoViewModel extends ChangeNotifier {
       context: state.context,
       builder: (context) => CoupleDialog(
         option: CoupleDialogOption.normal(
-          header: DialogHeader(text: '에러'),
-          body: DialogBody(text: '문제가 발생했습니다.'),
+          header: DialogHeader(text: tr('error_txt')),
+          body: DialogBody(text: tr('default_error_txt')),
           actions: [
             DialogAction(
               onPressed: context.pop,
               buttonOption: CoupleButtonOption.fill(
-                text: '확인',
+                text: tr('confirm_btn_txt'),
                 theme: CoupleButtonFillTheme.gray,
                 style: CoupleButtonFillStyle.fullSmall,
               ),

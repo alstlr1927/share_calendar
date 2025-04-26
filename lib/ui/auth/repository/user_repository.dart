@@ -87,7 +87,7 @@ class UserRepository {
     return <UserModel>[];
   }
 
-  Future<Map<String, dynamic>?> getUserProfileById({
+  Future<Map<String, dynamic>?> getUserProfileByUserId({
     required String userId,
   }) async {
     final query = await userDb.where('user_id', isEqualTo: userId).get();

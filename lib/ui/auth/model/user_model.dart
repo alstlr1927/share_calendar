@@ -5,9 +5,9 @@ import '../../../util/data_utils.dart';
 part 'user_model.g.dart';
 
 enum UserGender {
-  MALE('남성'),
-  FEMALE('여성'),
-  NONE('');
+  MALE('male_txt'),
+  FEMALE('female_txt'),
+  NONE('not_setting');
 
   const UserGender(this.typeKr);
 

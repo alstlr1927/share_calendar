@@ -2,6 +2,7 @@ import 'package:couple_calendar/ui/auth/view_model/login_view_model.dart';
 import 'package:couple_calendar/ui/auth/widget/social_login_button.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       value: viewModel,
       builder: (context, _) {
         return DefaultLayout(
-          title: '로그인',
+          title: tr('login_title'),
           resizeToAvoidBottomInset: false,
           onPressed: viewModel.focusout,
           child: Padding(
@@ -68,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: CoupleButton(
         onPressed: () {},
         option: CoupleButtonOption.text(
-          text: '비밀번호 찾기',
+          text: tr('find_pw_btn_txt'),
           theme: CoupleButtonTextTheme.gray,
           style: CoupleButtonTextStyle.small,
         ),
@@ -89,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return CoupleButton(
           onPressed: isReady ? viewModel.onClickLoginBtn : null,
           option: CoupleButtonOption.fill(
-            text: '로그인하기',
+            text: tr('login_btn_txt'),
             theme: CoupleButtonFillTheme.magenta,
             style: CoupleButtonFillStyle.fullRegular,
           ),
@@ -103,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         CoupleTextField(
           controller: viewModel.idController,
-          hintText: '이메일을 입력해주세요.',
+          hintText: tr('input_email_hint_txt'),
           onChanged: viewModel.validateEmail,
           title: 'email',
           inputFormatters: [
@@ -113,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(height: 4.toHeight),
         CoupleTextField(
           controller: viewModel.pwController,
-          hintText: '비밀번호를 입력해주세요.',
+          hintText: tr('input_pw_hint_txt'),
           isObscure: true,
           onChanged: viewModel.validatePassword,
           title: 'password',
