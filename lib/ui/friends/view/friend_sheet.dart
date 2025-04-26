@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/router/couple_router.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
+import 'package:couple_calendar/ui/common/widgets/profile_container.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:couple_calendar/util/images.dart';
 import 'package:flutter/material.dart';
@@ -50,16 +51,8 @@ class _FriendSheetState extends State<FriendSheet> {
             children: [
               _appbar(),
               const Spacer(),
-              Container(
-                width: 100.toWidth,
-                height: 100.toWidth,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(widget.friend.profileImg),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              ProfileContainer.size100(
+                url: widget.friend.profileImg,
               ),
               SizedBox(height: 6.toHeight),
               Text(
@@ -101,7 +94,7 @@ class _FriendSheetState extends State<FriendSheet> {
             ),
             const Spacer(),
             BaseButton(
-              onPressed: context.pop,
+              onPressed: () {},
               child: ColorFiltered(
                 colorFilter:
                     ColorFilter.mode(CoupleStyle.black, BlendMode.srcATop),
@@ -129,14 +122,6 @@ class _FriendSheetState extends State<FriendSheet> {
         );
         CoupleRouter().loadScheduleForm(context, schedule: schedule);
       },
-      // onPressed: () {
-
-      //   CoupleRouter().loadScheduleForm(
-      //     context,
-      //     date: DateTime.now(),
-      //     memberUids: [widget.friend.uid],
-      //   );
-      // },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

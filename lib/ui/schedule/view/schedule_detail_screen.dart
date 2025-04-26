@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/components/inset_shadow_box/inset_shadow_box.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';

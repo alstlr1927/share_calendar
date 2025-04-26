@@ -51,6 +51,8 @@ dependencies:
   google_maps_flutter: ^2.12.1
   geolocator: ^14.0.0
   easy_localization: ^3.0.7+1
+  octo_image: ^2.1.0
+  flutter_cache_manager: ^3.4.1
 
 dev_dependencies:
   flutter_test:

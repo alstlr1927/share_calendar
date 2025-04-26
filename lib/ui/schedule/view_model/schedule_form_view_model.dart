@@ -148,20 +148,6 @@ class ScheduleFormViewModel extends ChangeNotifier {
         },
       ),
     );
-    // showModalBottomSheet(
-    //   context: state.context,
-    //   isScrollControlled: false,
-    //   backgroundColor: Colors.transparent,
-    //   builder: (context) {
-    //     return TagFriendsBottomSheet(
-    //       selectedList: memberUserList,
-    //       onAdd: (list) {
-    //         setMemberUserList(list);
-    //         notifyListeners();
-    //       },
-    //     );
-    //   },
-    // );
   }
 
   void onClickRemoveFriend(String uid) {

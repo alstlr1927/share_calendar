@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/ui/auth/model/user_model.dart';
+import 'package:couple_calendar/ui/common/widgets/profile_container.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
 
@@ -37,17 +38,7 @@ class FriendsCircleWidget extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: Container(
-                    width: 40.toWidth,
-                    height: 40.toWidth,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: CachedNetworkImageProvider(friend.profileImg),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  child: ProfileContainer.size40(url: friend.profileImg),
                 ),
                 if (isForm)
                   Align(

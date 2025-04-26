@@ -5,6 +5,7 @@ import 'package:couple_calendar/ui/auth/repository/user_repository.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/couple_text_field.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/field_controller.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
+import 'package:couple_calendar/ui/common/widgets/profile_container.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
@@ -88,16 +89,8 @@ class _AddFriendDialogState extends State<AddFriendDialog> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          width: 80.toWidth,
-          height: 80.toWidth,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(findUser!.profileImg),
-              fit: BoxFit.cover,
-            ),
-          ),
+        ProfileContainer.size80(
+          url: findUser!.profileImg,
         ),
         SizedBox(height: 4.toHeight),
         Text(

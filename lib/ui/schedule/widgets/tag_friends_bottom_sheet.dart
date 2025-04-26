@@ -6,6 +6,7 @@ import 'package:couple_calendar/ui/common/components/couple_text_field/field_con
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/drag_to_dispose/drag_to_dispose.dart';
+import 'package:couple_calendar/ui/common/widgets/profile_container.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -173,17 +174,7 @@ class _TagFriendsBottomSheetState extends State<TagFriendsBottomSheet> {
       },
       child: Row(
         children: [
-          Container(
-            width: 40.toWidth,
-            height: 40.toWidth,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(friend.profileImg),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          ProfileContainer.size40(url: friend.profileImg),
           SizedBox(width: 10.toWidth),
           Text(
             friend.username,
