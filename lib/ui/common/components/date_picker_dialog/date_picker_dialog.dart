@@ -1,4 +1,5 @@
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -13,7 +14,6 @@ enum DateDialogContent {
 }
 
 class CoupleDatePicker extends StatefulWidget {
-  final String title;
   final DateTime initDateTime;
   final List<DateDialogContent> contents;
 
@@ -22,7 +22,6 @@ class CoupleDatePicker extends StatefulWidget {
 
   const CoupleDatePicker({
     super.key,
-    required this.title,
     required this.initDateTime,
     this.contents = const [DateDialogContent.YEAR, DateDialogContent.MONTH],
     // this.denyLastYearDateWhenSelectWithOutYear = true,
@@ -92,14 +91,8 @@ class _CoupleDatePickerState extends State<CoupleDatePicker> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: 25.toHeight, bottom: 6.toHeight),
-              child: Text(
-                widget.title,
-                style: CoupleStyle.h5(
-                  weight: FontWeight.bold,
-                ),
-              ),
+            SizedBox(
+              height: 2.toHeight,
             ),
             Container(
               height: 127.toHeight,
@@ -231,7 +224,7 @@ class _CoupleDatePickerState extends State<CoupleDatePicker> {
                   child: CoupleButton(
                     onPressed: context.pop,
                     option: CoupleButtonOption.fill(
-                      text: '취소',
+                      text: tr('cancel_btn_txt'),
                       theme: CoupleButtonFillTheme.gray,
                       style: CoupleButtonFillStyle.fullRegular,
                     ),
@@ -246,18 +239,11 @@ class _CoupleDatePickerState extends State<CoupleDatePicker> {
                     } else {
                       selectDt = DateTime(year, month, 1);
                     }
-
-                    // DateTime nowDt = DateTime.now();
-
-                    // bool isBefore = (nowDt.year < selectDt.year) ||
-                    //     (nowDt.year == selectDt.year &&
-                    //         nowDt.month <= selectDt.month);
-
                     return Flexible(
                       child: CoupleButton(
                         onPressed: () => context.pop<DateTime>(selectDt),
                         option: CoupleButtonOption.fill(
-                          text: '적용',
+                          text: tr('apply_btn_txt'),
                           theme: CoupleButtonFillTheme.magenta,
                           style: CoupleButtonFillStyle.fullRegular,
                         ),

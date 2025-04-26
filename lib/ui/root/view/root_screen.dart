@@ -30,7 +30,12 @@ enum RootType {
 
 class RootScreen extends StatefulWidget {
   static String get routeName => 'root';
-  const RootScreen({super.key});
+
+  final int? initTab;
+  const RootScreen({
+    super.key,
+    this.initTab = 2,
+  });
 
   @override
   State<RootScreen> createState() => _RootScreenState();

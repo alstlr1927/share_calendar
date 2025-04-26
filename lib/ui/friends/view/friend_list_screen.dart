@@ -3,6 +3,7 @@ import 'package:couple_calendar/ui/common/components/custom_button/base_button.d
 import 'package:couple_calendar/ui/friends/view_model/friend_list_view_model.dart';
 import 'package:couple_calendar/ui/friends/widgets/friend_list_item.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +65,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
           focusNode: viewModel.focusNode,
           decoration: InputDecoration(
             counterText: '',
-            hintText: '이름으로 검색',
+            hintText: tr('search_by_name_hint_txt'),
             hintStyle: CoupleStyle.body2(
                 color: CoupleStyle.gray060, weight: FontWeight.w600),
             contentPadding: EdgeInsets.symmetric(horizontal: 8.toWidth),
@@ -102,7 +103,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: 4.toWidth),
                     child: Text(
-                      '친구 ${friendList.length}',
+                      '${tr('friend_txt')} ${friendList.length}',
                       style: CoupleStyle.caption(
                         color: CoupleStyle.gray070,
                         weight: FontWeight.w700,
@@ -129,7 +130,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
       child: Row(
         children: [
           Text(
-            '친구 목록',
+            tr('friend_list_title'),
             style: CoupleStyle.h3(
               color: CoupleStyle.gray090,
               weight: FontWeight.w600,

@@ -59,7 +59,13 @@ final router = GoRouter(
     GoRoute(
       path: '/root',
       name: RootScreen.routeName,
-      builder: (_, __) => const RootScreen(),
+      builder: (_, state) {
+        int? initIdx;
+        if (state.extra != null && state.extra is int) {
+          initIdx = state.extra as int;
+        }
+        return RootScreen(initTab: initIdx);
+      },
       routes: [
         GoRoute(
           path: '/schedule_form',

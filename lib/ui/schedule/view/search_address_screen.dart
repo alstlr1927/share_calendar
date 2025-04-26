@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kpostal/kpostal.dart';
 
@@ -11,7 +12,7 @@ class SearchAddressScreen extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       child: KpostalView(
-        title: '주소검색',
+        title: tr('search_address_title'),
       ),
     );
   }

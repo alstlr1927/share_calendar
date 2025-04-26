@@ -5,10 +5,10 @@ import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
 import 'package:couple_calendar/ui/schedule/widgets/schedule_list_item.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 class DayCellDetailBottomSheet extends StatefulWidget {
   final DateTime date;
@@ -26,22 +26,6 @@ class DayCellDetailBottomSheet extends StatefulWidget {
 }
 
 class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
-  int _openIdx = -1;
-  int get openIdx => _openIdx;
-  void setOpenIdx(int idx) => _openIdx = idx;
-
-  void onMoveUpdate({required PointerMoveEvent event, required int idx}) {
-    debugPrint('onPointerMove : ${event.delta.dx}');
-
-    if (event.delta.dx > 7 && idx == openIdx) {
-      setOpenIdx(-1);
-      setState(() {});
-    } else if (event.delta.dx < -7) {
-      setOpenIdx(idx);
-      setState(() {});
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -111,7 +95,7 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
                           .loadScheduleForm(context, schedule: schedule);
                     },
                     option: CoupleButtonOption.fill(
-                      text: '+ 할일을 추가 해보세요.',
+                      text: tr('add_schedule_btn_txt'),
                       theme: CoupleButtonFillTheme.lightMagenta,
                       style: CoupleButtonFillStyle.fullRegular,
                     ),
@@ -157,7 +141,7 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
 
   String getDdayText(int diff) {
     if (diff == 0) {
-      return '오늘';
+      return tr('today_txt');
     } else if (diff > 0) {
       return 'D + $diff';
     }

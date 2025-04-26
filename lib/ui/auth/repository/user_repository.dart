@@ -108,4 +108,14 @@ class UserRepository {
       'friend_ids': FieldValue.arrayUnion([friendUid])
     });
   }
+
+  Future<void> removeUserFriend({
+    required String friendUid,
+  }) async {
+    final uid =
+        Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
+    await userDb.doc(uid).update({
+      'friend_ids': FieldValue.arrayRemove([friendUid]),
+    });
+  }
 }

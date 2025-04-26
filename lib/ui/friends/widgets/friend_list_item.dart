@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/router/couple_router.dart';
 import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';

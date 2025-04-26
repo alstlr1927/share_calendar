@@ -3,6 +3,7 @@ import 'package:couple_calendar/ui/schedule/view_model/schedule_view_model.dart'
 import 'package:couple_calendar/ui/schedule/widgets/calendar_month_widget.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
@@ -88,7 +89,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         final month = tuple.item2;
 
         final isThisYear = year == DateTime.now().year;
-        final text = isThisYear ? '$month월' : '$year년 $month월';
+        final text = isThisYear
+            ? '${tr('month_txt', namedArgs: {'month': '$month'})}'
+            : '${tr('year_month_txt', namedArgs: {
+                    'year': '$year',
+                    'month': '$month'
+                  })}';
         return Padding(
           padding: EdgeInsets.only(left: 22.toWidth),
           child: Text(

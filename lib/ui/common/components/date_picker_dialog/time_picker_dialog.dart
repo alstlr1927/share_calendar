@@ -1,4 +1,5 @@
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -159,7 +160,7 @@ class _CoupleTimePickerState extends State<CoupleTimePicker> {
                   child: CoupleButton(
                     onPressed: context.pop,
                     option: CoupleButtonOption.fill(
-                      text: '취소',
+                      text: tr('cancel_btn_txt'),
                       theme: CoupleButtonFillTheme.gray,
                       style: CoupleButtonFillStyle.fullRegular,
                     ),
@@ -171,7 +172,7 @@ class _CoupleTimePickerState extends State<CoupleTimePicker> {
                     onPressed: () => context.pop(
                         widget.initTime.copyWith(hour: _hour, minute: _min)),
                     option: CoupleButtonOption.fill(
-                      text: '적용',
+                      text: tr('apply_btn_txt'),
                       theme: CoupleButtonFillTheme.magenta,
                       style: CoupleButtonFillStyle.fullRegular,
                     ),

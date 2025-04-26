@@ -37,7 +37,6 @@ class ProfileContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('url : ${url}');
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -62,7 +61,6 @@ class ProfileContainer extends StatelessWidget {
   }
 
   Widget _buildUrlImage() {
-    debugPrint('url : ${url}');
     return CoupleImage(
       width: width,
       height: height,

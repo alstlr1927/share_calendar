@@ -2,8 +2,10 @@ import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../view/root_screen.dart';
+
 class RootViewModel extends ChangeNotifier {
-  State state;
+  State<RootScreen> state;
 
   int _curTabIdx = 2;
   int get curTabIdx => _curTabIdx;
@@ -31,5 +33,6 @@ class RootViewModel extends ChangeNotifier {
 
   RootViewModel(this.state) {
     Provider.of<UserProvider>(state.context, listen: false).refreshProfile();
+    setCurTabIdx(state.widget.initTab ?? 2);
   }
 }

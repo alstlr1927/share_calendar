@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:couple_calendar/ui/common/components/couple_text_field/couple_text_field.dart';
@@ -8,6 +7,7 @@ import 'package:couple_calendar/ui/common/components/custom_button/couple_button
 import 'package:couple_calendar/ui/common/components/drag_to_dispose/drag_to_dispose.dart';
 import 'package:couple_calendar/ui/common/widgets/profile_container.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -116,7 +116,8 @@ class _TagFriendsBottomSheetState extends State<TagFriendsBottomSheet> {
             context.pop();
           },
           option: CoupleButtonOption.line(
-            text: '완료' + (friendList.isNotEmpty ? ' ${friendList.length}' : ''),
+            text: tr('complete_btn_txt') +
+                (friendList.isNotEmpty ? ' ${friendList.length}' : ''),
             theme: CoupleButtonLineTheme.deepGray,
             style: CoupleButtonLineStyle.regular,
           ),

@@ -9,6 +9,7 @@ import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
 import 'package:couple_calendar/ui/schedule/repository/schedule_repository.dart';
 import 'package:couple_calendar/ui/schedule/view/schedule_form_screen.dart';
 import 'package:couple_calendar/ui/schedule/widgets/tag_friends_bottom_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -64,10 +65,10 @@ class ScheduleFormViewModel extends ChangeNotifier {
       Provider.of<LoadingProvider>(state.context, listen: false)
           .setIsLoading(true);
       if (curForm == ScheduleFormType.CREATE) {
-        completeText = '일정이 등록되었습니다.';
+        completeText = tr('schedule_registered_notice_txt');
         await createSchedule();
       } else {
-        completeText = '일정이 수정되었습니다.';
+        completeText = tr('schedule_updated_notice_txt');
         await updateSchedule();
       }
 
@@ -79,7 +80,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
 
       state.context.pop();
     } else {
-      completeText = '일정이 이미 존재하는 시간대입니다.';
+      completeText = tr('schedule_conflict_notice_txt');
     }
 
     CoupleNotification().notify(
@@ -187,7 +188,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
 
     if (!res.isBefore(endDate)) {
       if (res.hour >= 23) {
-        CoupleNotification().notify(title: '시작 날짜는 종료 날짜 이전이어야 합니다.');
+        CoupleNotification().notify(title: tr('schedule_error_txt'));
         return;
       }
       endDate = DateTime(res.year, res.month, res.day, res.hour + 1);
@@ -210,7 +211,7 @@ class ScheduleFormViewModel extends ChangeNotifier {
     debugPrint('res :$res');
 
     if (!res.isAfter(startDate)) {
-      CoupleNotification().notify(title: '시작 날짜는 종료 날짜 이전이어야 합니다.');
+      CoupleNotification().notify(title: tr('schedule_error_txt'));
       return;
     }
 
@@ -250,7 +251,6 @@ class ScheduleFormViewModel extends ChangeNotifier {
     return await showDialog<DateTime>(
       context: state.context,
       builder: (_) => CoupleDatePicker(
-        title: '날짜 선택',
         initDateTime: initDt,
         contents: DateDialogContent.values,
       ),

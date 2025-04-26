@@ -251,8 +251,6 @@ class _CoupleImageState extends State<CoupleImage> {
 
   @override
   void initState() {
-    debugPrint('!!!imgProvURl : ${widget._image.url} ');
-
     super.initState();
   }
 
@@ -280,8 +278,6 @@ class _CoupleImageState extends State<CoupleImage> {
         color: widget.backGroundColor,
       );
     }
-
-    debugPrint('이미지 이미지  :${widget.imageUrl}');
 
     return Container(
       width: widget.width,

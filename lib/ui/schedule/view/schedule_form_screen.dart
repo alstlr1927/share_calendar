@@ -7,6 +7,7 @@ import 'package:couple_calendar/ui/schedule/view_model/schedule_form_view_model.
 import 'package:couple_calendar/ui/schedule/widgets/friends_circle_widget.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:couple_calendar/util/couple_util.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -58,7 +59,7 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
               return _loading();
             }
             return DefaultLayout(
-              title: '일정 작성',
+              title: tr('schedule_regist_title'),
               onPressed: viewModel.focusout,
               actions: [_buildConfirmBtn()],
               child: SingleChildScrollView(
@@ -114,7 +115,7 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _titleText(title: '멤버', isRequired: false),
+        _titleText(title: tr('friend_txt'), isRequired: false),
         SizedBox(
           width: double.infinity,
           height: 4.toHeight,
@@ -183,13 +184,13 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _titleText(title: '장소', isRequired: false),
+        _titleText(title: tr('location_txt'), isRequired: false),
         SizedBox(height: 4.toHeight),
         Row(
           children: [
             Expanded(
               child: CoupleTextField(
-                hintText: '장소를 입력하세요.',
+                hintText: tr('input_location_hint_txt'),
                 controller: viewModel.locationController,
               ),
             ),
@@ -197,7 +198,7 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
             CoupleButton(
               onPressed: viewModel.onClickSearchAddressBtn,
               option: CoupleButtonOption.fill(
-                text: '주소 검색',
+                text: tr('search_address_btn_txt'),
                 theme: CoupleButtonFillTheme.lightMagenta,
                 style: CoupleButtonFillStyle.regular,
               ),
@@ -214,7 +215,7 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _titleText(title: '테마', isRequired: false),
+          _titleText(title: tr('theme_txt'), isRequired: false),
           SizedBox(height: 4.toHeight),
           Selector<ScheduleFormViewModel, ScheduleTheme>(
             selector: (_, vm) => vm.curTheme,
@@ -248,7 +249,7 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _titleText(title: '날짜 시간', isRequired: false),
+            _titleText(title: tr('date_n_time_txt'), isRequired: false),
             SizedBox(height: 4.toHeight),
             BaseButton(
               onPressed: viewModel.onClickDateBtn,
@@ -327,17 +328,17 @@ class _ScheduleFormScreenState extends State<ScheduleFormScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _titleText(title: '제목'),
+        _titleText(title: tr('title_txt')),
         SizedBox(height: 4.toHeight),
         CoupleTextField(
-          hintText: '제목을 입력하세요.',
+          hintText: tr('input_title_hint_txt'),
           controller: viewModel.titleController,
         ),
         SizedBox(height: 8.toHeight),
-        _titleText(title: '내용'),
+        _titleText(title: tr('content_txt')),
         SizedBox(height: 4.toHeight),
         CoupleTextField(
-          hintText: '내용을 입력하세요.',
+          hintText: tr('input_content_hint_txt'),
           controller: viewModel.contentController,
         ),
       ],
