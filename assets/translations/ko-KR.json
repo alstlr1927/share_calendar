@@ -32,6 +32,8 @@
   "search_by_name_hint_txt": "이름으로 검색",
   "friend_txt": "친구",
   "friend_list_title": "친구 목록",
+  "delete_friend_remind_txt": "친구목록에서 삭제하시겠습니까?",
+  "create_schedule_with_friend": "일정 만들기",
 
   "_______________________________________________________________________ Schedule": "",
   "schedule_regist_title": "일정 작성",
@@ -68,6 +70,7 @@
   "confirm_btn_txt": "확인",
   "regist_btn_txt": "등록",
   "cancel_btn_txt": "취소",
+  "delete_btn_txt": "삭제",
   "apply_btn_txt": "적용",
   "complete_btn_txt": "완료",
   "signout_btn_txt": "로그아웃",

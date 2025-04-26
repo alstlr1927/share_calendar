@@ -10,6 +10,7 @@ import 'package:couple_calendar/ui/common/widgets/profile_container.dart';
 import 'package:couple_calendar/ui/root/view/root_screen.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:couple_calendar/util/images.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -136,7 +137,7 @@ class _FriendSheetState extends State<FriendSheet> {
           ),
           SizedBox(height: 6.toHeight),
           Text(
-            '일정 만들기',
+            tr('create_schedule_with_friend'),
             style: CoupleStyle.caption(weight: FontWeight.w500),
           ),
         ],
@@ -149,8 +150,8 @@ class _FriendSheetState extends State<FriendSheet> {
       context: context,
       builder: (context) => CoupleDialog(
         option: CoupleDialogOption.normal(
-          header: DialogHeader(text: '삭제'),
-          body: DialogBody(text: '친구목록에서 삭제하시겠습니까?'),
+          header: DialogHeader(text: tr('delete_btn_txt')),
+          body: DialogBody(text: tr('delete_friend_remind_txt')),
           actions: [
             DialogAction(
               onPressed: () async {
@@ -163,7 +164,7 @@ class _FriendSheetState extends State<FriendSheet> {
                 );
               },
               buttonOption: CoupleButtonOption.fill(
-                text: '삭제',
+                text: tr('delete_btn_txt'),
                 theme: CoupleButtonFillTheme.lightMagenta,
                 style: CoupleButtonFillStyle.fullSmall,
               ),
@@ -171,7 +172,7 @@ class _FriendSheetState extends State<FriendSheet> {
             DialogAction(
               onPressed: context.pop,
               buttonOption: CoupleButtonOption.fill(
-                text: '취소',
+                text: tr('cancel_btn_txt'),
                 theme: CoupleButtonFillTheme.gray,
                 style: CoupleButtonFillStyle.fullSmall,
               ),
@@ -190,7 +191,7 @@ class _FriendSheetState extends State<FriendSheet> {
   Future<void> onClickMoreBtn() async {
     List<BottomSheetItem> actions = [
       BottomSheetItem(
-        title: '삭제',
+        title: tr('delete_btn_txt'),
         cautionFlag: true,
         onPressed: showDeleteDialog,
       ),
@@ -200,7 +201,7 @@ class _FriendSheetState extends State<FriendSheet> {
       context: context,
       builder: (_) => BottomSheetPicker(
         actions: actions,
-        cancelItem: BottomSheetItem(title: '취소'),
+        cancelItem: BottomSheetItem(title: tr('cancel_btn_txt')),
       ),
     );
   }
