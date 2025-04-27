@@ -1,3 +1,5 @@
+import 'package:couple_calendar/router/couple_router.dart';
+import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
 import 'package:couple_calendar/ui/home/view_model/home_view_model.dart';
 import 'package:couple_calendar/util/couple_util.dart';
@@ -37,12 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, _) {
         return SafeArea(
           top: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTitle(),
-              _buildScheduleListView(),
-            ],
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTitle(),
+                _buildScheduleListView(),
+              ],
+            ),
           ),
         );
       },
@@ -60,14 +65,47 @@ class _HomeScreenState extends State<HomeScreen> {
           final target = CoupleUtil().dateTimeToString(today);
           return data == target;
         }).toList();
-        return SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(
-              parent: const BouncingScrollPhysics()),
-          child: Column(
-            children: list
-                .map((e) => HomeScheduleListItem(schedule: e) as Widget)
-                .superJoin(SizedBox(height: 10.toHeight))
-                .toList(),
+        if (!list.isEmpty) {
+          return SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 180.toHeight),
+                Text(
+                  '오늘 일정이 없어요.\n새로운 일정을 만들어보세요!',
+                  style: CoupleStyle.body1(
+                    weight: FontWeight.w600,
+                    color: CoupleStyle.gray070,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20.toHeight),
+                CoupleButton(
+                  onPressed: () {
+                    CoupleRouter().loadScheduleForm(context);
+                  },
+                  option: CoupleButtonOption.fill(
+                    text: '일정 만들기',
+                    theme: CoupleButtonFillTheme.lightMagenta,
+                    style: CoupleButtonFillStyle.regular,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return Expanded(
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(
+                parent: const BouncingScrollPhysics()),
+            child: Column(
+              children: list
+                  .map((e) => HomeScheduleListItem(schedule: e) as Widget)
+                  .superJoin(SizedBox(height: 10.toHeight))
+                  .toList(),
+            ),
           ),
         );
       },

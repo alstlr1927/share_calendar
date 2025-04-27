@@ -51,10 +51,39 @@ class CoupleRouter {
     );
   }
 
-  loadScheduleForm(BuildContext context,
-      {required ScheduleModel schedule}) async {
-    return await context.pushNamed(ScheduleFormScreen.routeName,
-        extra: schedule);
+  loadScheduleForm(
+    BuildContext context, {
+    List<String> memberIds = const [],
+    DateTime? date,
+  }) async {
+    final targetDt = date ?? DateTime.now();
+    final now = DateTime.now();
+
+    DateTime startDt =
+        DateTime(targetDt.year, targetDt.month, targetDt.day, now.hour);
+    DateTime endDt = startDt.add(const Duration(hours: 1));
+    startDt = startDt.add(const Duration(seconds: 1));
+
+    ScheduleModel schedule = ScheduleModel(
+      startDate: startDt,
+      endDate: endDt,
+      memberIds: memberIds,
+    );
+
+    return await context.pushNamed(
+      ScheduleFormScreen.routeName,
+      extra: schedule,
+    );
+  }
+
+  loadScheduleUpdateForm(
+    BuildContext context, {
+    required ScheduleModel schedule,
+  }) async {
+    return await context.pushNamed(
+      ScheduleFormScreen.routeName,
+      extra: schedule,
+    );
   }
 
   Future<Kpostal?> loadSearchAddress(BuildContext context) async {

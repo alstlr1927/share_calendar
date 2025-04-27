@@ -80,19 +80,10 @@ class _DayCellDetailBottomSheetState extends State<DayCellDetailBottomSheet> {
                   padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                   child: CoupleButton(
                     onPressed: () {
-                      final now = DateTime.now();
-                      final date = widget.date;
-                      DateTime startDt =
-                          DateTime(date.year, date.month, date.day, now.hour);
-                      DateTime endDt = startDt.add(const Duration(hours: 1));
-                      startDt = startDt.add(const Duration(seconds: 1));
-
-                      final schedule = ScheduleModel(
-                        startDate: startDt,
-                        endDate: endDt,
+                      CoupleRouter().loadScheduleForm(
+                        context,
+                        date: widget.date,
                       );
-                      CoupleRouter()
-                          .loadScheduleForm(context, schedule: schedule);
                     },
                     option: CoupleButtonOption.fill(
                       text: tr('add_schedule_btn_txt'),

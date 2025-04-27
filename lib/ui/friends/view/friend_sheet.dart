@@ -116,17 +116,10 @@ class _FriendSheetState extends State<FriendSheet> {
   Widget _iconButton() {
     return BaseButton(
       onPressed: () {
-        final now = DateTime.now();
-        DateTime startDt = DateTime(now.year, now.month, now.day, now.hour);
-        DateTime endDt = startDt.add(const Duration(hours: 1));
-        startDt = startDt.add(const Duration(seconds: 1));
-
-        final schedule = ScheduleModel(
-          startDate: startDt,
-          endDate: endDt,
+        CoupleRouter().loadScheduleForm(
+          context,
           memberIds: [widget.friend.uid],
         );
-        CoupleRouter().loadScheduleForm(context, schedule: schedule);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
