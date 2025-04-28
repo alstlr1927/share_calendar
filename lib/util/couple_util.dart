@@ -54,11 +54,11 @@ class CoupleUtil {
     final minutes = totalMinutes % 60;
 
     if (totalMinutes < 60) {
-      return '$minutes분 남음';
+      return '$minutes분';
     } else if (minutes == 0) {
-      return '$hours시간 남음';
+      return '$hours시간';
     } else
-      return '$hours시간 $minutes분 남음';
+      return '$hours시간 $minutes분';
   }
 
   ScheduleState getScheduleState({

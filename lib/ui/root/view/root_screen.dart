@@ -119,7 +119,7 @@ class _RootScreenState extends State<RootScreen> {
             children: [
               Container(
                 width: double.infinity,
-                height: 50.toHeight,
+                height: CoupleStyle.bottomActionHeight,
                 padding: EdgeInsets.only(top: 10.toHeight),
                 decoration: BoxDecoration(
                   color: CoupleStyle.gray080,

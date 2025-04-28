@@ -128,7 +128,7 @@ class CoupleStyle {
     }
   }
 
-  static double get bottomActionHeight => defaultBottomPadding() + 50.toHeight;
+  static double get bottomActionHeight => 50.toHeight;
 
   static double safeAreaPadding() {
     if (ScreenUtil().bottomBarHeight == 0) {

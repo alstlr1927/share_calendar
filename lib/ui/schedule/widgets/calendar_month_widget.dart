@@ -51,7 +51,9 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
                   child: Column(
                     children: [
                       _buildCalendar(widget.year, widget.month),
-                      SizedBox(height: CoupleStyle.bottomActionHeight),
+                      SizedBox(
+                          height: CoupleStyle.bottomActionHeight +
+                              CoupleStyle.defaultBottomPadding()),
                     ],
                   ),
                 ),
