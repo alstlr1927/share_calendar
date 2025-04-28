@@ -3,6 +3,7 @@ import 'package:couple_calendar/ui/common/components/custom_button/base_button.d
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
 import 'package:couple_calendar/ui/common/components/lazy_indexed_stack/lazy_indexed_stack.dart';
+import 'package:couple_calendar/ui/common/components/logger/couple_logger.dart';
 import 'package:couple_calendar/ui/friends/view/friend_list_screen.dart';
 import 'package:couple_calendar/ui/home/view/home_screen.dart';
 import 'package:couple_calendar/ui/schedule/view/schedule_screen.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+
+import '../../home/provider/time_line_provider.dart';
 
 enum RootType {
   HOME(homeIcon, 'home_tab_txt'),
@@ -41,18 +44,20 @@ class RootScreen extends StatefulWidget {
   State<RootScreen> createState() => _RootScreenState();
 }
 
-class _RootScreenState extends State<RootScreen> {
+class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   late RootViewModel viewModel;
 
   @override
   void initState() {
     super.initState();
     viewModel = RootViewModel(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     viewModel.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -60,6 +65,29 @@ class _RootScreenState extends State<RootScreen> {
   void didChangeDependencies() {
     timeDilation = 1;
     super.didChangeDependencies();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        CoupleLog().i('APP IS RESUMED');
+        Provider.of<TimeLineProvider>(context, listen: false).calCurTimeLine();
+        break;
+      case AppLifecycleState.paused:
+        CoupleLog().i('APP IS PAUSED');
+        break;
+      case AppLifecycleState.inactive:
+        CoupleLog().i('APP IS INACTIVE');
+        break;
+      case AppLifecycleState.detached:
+        CoupleLog().i('APP IS DETACHED');
+        break;
+      case AppLifecycleState.hidden:
+        CoupleLog().i('APP IS HIDDEN');
+        break;
+    }
   }
 
   @override

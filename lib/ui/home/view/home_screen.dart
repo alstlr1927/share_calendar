@@ -2,6 +2,7 @@ import 'package:couple_calendar/router/couple_router.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
+import 'package:couple_calendar/ui/home/provider/time_line_provider.dart';
 import 'package:couple_calendar/ui/home/view_model/home_view_model.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:couple_calendar/util/images.dart';
@@ -45,21 +46,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return ChangeNotifierProvider<HomeViewModel>.value(
       value: viewModel,
       builder: (context, _) {
-        return GestureDetector(
-          onTap: () {
-            viewModel.calCurTimeLine();
-          },
-          child: SafeArea(
-            top: true,
-            child: SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTitle(),
-                  _buildScheduleListView(),
-                ],
-              ),
+        return SafeArea(
+          top: true,
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTitle(),
+                _buildScheduleListView(),
+              ],
             ),
           ),
         );
@@ -157,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _curTimeLine() {
-    return Selector<HomeViewModel, double>(
+    return Selector<TimeLineProvider, double>(
       selector: (_, vm) => vm.curTimeLineTop,
       builder: (_, top, __) {
         return Positioned(

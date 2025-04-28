@@ -2,6 +2,7 @@ import 'package:couple_calendar/ui/auth/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../home/provider/time_line_provider.dart';
 import '../view/root_screen.dart';
 
 class RootViewModel extends ChangeNotifier {
@@ -15,7 +16,14 @@ class RootViewModel extends ChangeNotifier {
   }
 
   void onClickTabItem(int idx) {
+    if (_curTabIdx == idx) return;
+
     setCurTabIdx(idx);
+
+    if (_curTabIdx == 0) {
+      Provider.of<TimeLineProvider>(state.context, listen: false)
+          .calCurTimeLine();
+    }
     notifyListeners();
   }
 
@@ -33,6 +41,12 @@ class RootViewModel extends ChangeNotifier {
 
   RootViewModel(this.state) {
     Provider.of<UserProvider>(state.context, listen: false).refreshProfile();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<TimeLineProvider>(state.context, listen: false)
+          .calCurTimeLine();
+      Provider.of<TimeLineProvider>(state.context, listen: false)
+          .startTimeLineRefresh();
+    });
     setCurTabIdx(state.widget.initTab ?? 2);
   }
 }

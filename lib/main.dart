@@ -6,6 +6,7 @@ import 'package:couple_calendar/ui/common/components/logger/couple_logger.dart';
 import 'package:couple_calendar/ui/common/components/overlay_notification/overlay.dart';
 import 'package:couple_calendar/ui/common/provider/loading_provider.dart';
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
+import 'package:couple_calendar/ui/home/provider/time_line_provider.dart';
 import 'package:couple_calendar/util/couple_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -130,6 +131,9 @@ class MainApp extends StatelessWidget {
                     ),
                     ChangeNotifierProvider<ScheduleProvider>(
                       create: (_) => ScheduleProvider(),
+                    ),
+                    ChangeNotifierProvider<TimeLineProvider>(
+                      create: (_) => TimeLineProvider(),
                     ),
                   ],
                   child: ScrollConfiguration(
