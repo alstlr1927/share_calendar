@@ -58,6 +58,10 @@ class ClientService {
     return firestore.collection('schedule');
   }
 
+  CollectionReference<Map<String, dynamic>> getCommentDb() {
+    return firestore.collection('comment');
+  }
+
   void setInternal() async {
     dio.interceptors.clear();
     dio.interceptors.add(CustomLogInterceptor(dio));

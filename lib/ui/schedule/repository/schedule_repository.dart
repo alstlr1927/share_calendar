@@ -19,8 +19,7 @@ class ScheduleRepository {
   }) async {
     final uid =
         Provider.of<UserProvider>(nav.currentContext!, listen: false).getUid();
-    QuerySnapshot<Map<String, dynamic>> query = await ClientService()
-        .getScheduleDb()
+    QuerySnapshot<Map<String, dynamic>> query = await scheduleDb
         .where('is_able', isEqualTo: true)
         .where('member_ids', arrayContains: uid)
         .where('start_date', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
@@ -40,8 +39,7 @@ class ScheduleRepository {
     final startTs = Timestamp.fromDate(DateTime(year, 1, 1, 0, 0, 0));
     final endTs = Timestamp.fromDate(DateTime(year, 12, 31, 23, 59, 59));
 
-    QuerySnapshot<Map<String, dynamic>> query = await ClientService()
-        .getScheduleDb()
+    QuerySnapshot<Map<String, dynamic>> query = await scheduleDb
         .where('is_able', isEqualTo: true)
         .where('start_date', isGreaterThanOrEqualTo: startTs)
         .where('start_date', isLessThanOrEqualTo: endTs)

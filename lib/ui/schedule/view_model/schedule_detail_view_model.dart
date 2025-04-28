@@ -1,11 +1,14 @@
 import 'package:couple_calendar/router/couple_router.dart';
 import 'package:couple_calendar/ui/auth/model/user_model.dart';
 import 'package:couple_calendar/ui/auth/repository/user_repository.dart';
+import 'package:couple_calendar/ui/comment/view/comment_sheet_page.dart';
 import 'package:couple_calendar/ui/common/components/bottom_sheet/bottom_sheet_picker.dart';
 import 'package:couple_calendar/ui/common/components/bottom_sheet/show_modal_sheet.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/dialog/couple_text_dialog.dart';
 import 'package:couple_calendar/ui/common/components/snack_bar/couple_noti.dart';
+import 'package:couple_calendar/ui/comment/model/comment_model.dart';
+import 'package:couple_calendar/ui/comment/repository/comment_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +25,12 @@ class ScheduleDetailViewModel extends ChangeNotifier {
 
   late ScheduleModel schedule;
   List<UserModel> memberList = [];
+
+  List<CommentModel> commentList = [];
+
+  int _totalCommentCnt = 0;
+  int get totalCommentCnt => _totalCommentCnt;
+  void setTotalCommentCnt(int val) => _totalCommentCnt = val;
 
   bool _isReady = false;
   bool get isReady => _isReady;
@@ -47,6 +56,31 @@ class ScheduleDetailViewModel extends ChangeNotifier {
       }
     }
     return null;
+  }
+
+  Future<void> _getCommentList({
+    required String scheduleId,
+  }) async {
+    final int cnt =
+        await CommentRepository().getTotalCommentCnt(scheduleId: scheduleId);
+    setTotalCommentCnt(cnt);
+
+    final docs = await CommentRepository().getCommentListByScheduleId(
+      scheduleId: scheduleId,
+      isDescending: true,
+      limit: 2,
+    );
+
+    if (docs.isNotEmpty) {
+      try {
+        final list = docs.map((e) => CommentModel.fromJson(e.data())).toList();
+        commentList = List<CommentModel>.from(list);
+      } catch (e, trace) {
+        CoupleLog().e('error : $e');
+        CoupleLog().e('$trace');
+      }
+      notifyListeners();
+    }
   }
 
   Future<void> onClickMoreBtn() async {
@@ -166,6 +200,17 @@ class ScheduleDetailViewModel extends ChangeNotifier {
     );
   }
 
+  Future<void> onClickCommentMoreBtn() async {
+    Navigator.push(
+      state.context,
+      SheetRoute(
+        builder: (context) {
+          return CommentSheetPage();
+        },
+      ),
+    );
+  }
+
   @override
   void notifyListeners() {
     if (state.mounted) {
@@ -180,6 +225,7 @@ class ScheduleDetailViewModel extends ChangeNotifier {
 
   ScheduleDetailViewModel(this.state, {required String scheduleId}) {
     _getMyScheduleById(scheduleId: scheduleId).then(_initSetting);
+    _getCommentList(scheduleId: scheduleId);
   }
 
   void _initSetting(ScheduleModel? schedule) {

@@ -1,4 +1,6 @@
+import 'package:couple_calendar/ui/comment/widgets/comment_item.dart';
 import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
+import 'package:couple_calendar/ui/common/components/custom_button/couple_button.dart';
 import 'package:couple_calendar/ui/common/components/inset_shadow_box/inset_shadow_box.dart';
 import 'package:couple_calendar/ui/common/components/layout/default_layout.dart';
 import 'package:couple_calendar/ui/schedule/view_model/schedule_detail_view_model.dart';
@@ -67,6 +69,7 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
                       _buildContentArea(),
                       _buildDateArea(),
                       _buildMemberArea(),
+                      _buildCommentArea(),
                       _buildMapArea(),
                       SizedBox(height: CoupleStyle.defaultBottomPadding()),
                     ].superJoin(SizedBox(height: 10.toHeight)).toList(),
@@ -75,6 +78,44 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
               ),
             );
           },
+        );
+      },
+    );
+  }
+
+  Widget _buildCommentArea() {
+    return Builder(
+      builder: (context) {
+        final vm = Provider.of<ScheduleDetailViewModel>(context, listen: false);
+        final commentCnt = vm.totalCommentCnt;
+        final commentList = vm.commentList;
+        return SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 10.toHeight),
+              Row(
+                children: [
+                  _titleText(title: '댓글 (${commentCnt})'),
+                  const Spacer(),
+                  CoupleButton(
+                    onPressed: viewModel.onClickCommentMoreBtn,
+                    option: CoupleButtonOption.text(
+                      text: '더보기',
+                      theme: CoupleButtonTextTheme.subBlue,
+                      style: CoupleButtonTextStyle.small,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 4.toHeight),
+              ...commentList
+                  .map((e) => CommentItem(comment: e) as Widget)
+                  .superJoin(SizedBox(height: 4.toHeight)),
+            ],
+          ),
         );
       },
     );
@@ -149,6 +190,9 @@ class _ScheduleDetailScreenState extends State<ScheduleDetailScreen> {
     return Builder(
       builder: (context) {
         final vm = Provider.of<ScheduleDetailViewModel>(context, listen: false);
+        if (vm.memberList.isEmpty) {
+          return const SizedBox();
+        }
         return SizedBox(
           width: double.infinity,
           child: Column(

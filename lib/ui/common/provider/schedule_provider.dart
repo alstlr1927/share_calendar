@@ -15,7 +15,7 @@ class ScheduleProvider extends ChangeNotifier {
     final docs = await ScheduleRepository().getMyScheduleByYear(year: year);
     scheduleData = {};
     if (docs.isNotEmpty) {
-      final list = docs.map((e) => ScheduleModel.fromJson(e.data()));
+      final list = docs.map((e) => ScheduleModel.fromJson(e.data())).toList();
 
       for (var item in list) {
         final key = CoupleUtil()
