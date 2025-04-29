@@ -32,11 +32,13 @@ class HomeViewModel extends ChangeNotifier {
       if (top > ScreenUtil().screenHeight * .3) {
         offset -= (ScreenUtil().screenHeight * .3);
       }
-      scrollController.animateTo(
-        offset,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeIn,
-      );
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          offset,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeIn,
+        );
+      }
     });
   }
 }

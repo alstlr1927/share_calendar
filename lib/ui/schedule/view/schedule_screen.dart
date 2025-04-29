@@ -1,3 +1,4 @@
+import 'package:couple_calendar/ui/common/components/custom_button/base_button.dart';
 import 'package:couple_calendar/ui/common/provider/schedule_provider.dart';
 import 'package:couple_calendar/ui/schedule/view_model/schedule_view_model.dart';
 import 'package:couple_calendar/ui/schedule/widgets/calendar_month_widget.dart';
@@ -95,15 +96,26 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     'year': '$year',
                     'month': '$month'
                   })}';
-        return Padding(
-          padding: EdgeInsets.only(left: 22.toWidth),
-          child: Text(
-            text,
-            style: CoupleStyle.h3(
-              color: CoupleStyle.gray090,
-              weight: FontWeight.w600,
+        return Row(
+          children: [
+            SizedBox(width: 22.toWidth),
+            Text(
+              text,
+              style: CoupleStyle.h3(
+                color: CoupleStyle.gray090,
+                weight: FontWeight.w600,
+              ),
             ),
-          ),
+            const Spacer(),
+            BaseButton(
+              onPressed: () {},
+              child: Icon(
+                Icons.refresh,
+                size: 26.toWidth,
+              ),
+            ),
+            SizedBox(width: 16.toWidth),
+          ],
         );
       },
     );

@@ -13,6 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../util/couple_style.dart';
+import '../../schedule/model/schedule_model.dart';
 import '../widget/home_schedule_list_item.dart';
 
 final double HOUR_CELL_HEIGHT = 100.toHeight;
@@ -86,62 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
               width: ScreenUtil().screenWidth,
               height: 24 * HOUR_CELL_HEIGHT + CoupleStyle.bottomActionHeight,
               child: Stack(
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...List.generate(
-                            24,
-                            (int idx) => Container(
-                                  width: double.infinity,
-                                  height: HOUR_CELL_HEIGHT,
-                                  alignment: Alignment.topRight,
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 6.toWidth),
-                                  decoration: BoxDecoration(
-                                    color: [
-                                      CoupleStyle.gray030,
-                                      CoupleStyle.white,
-                                    ][idx % 2],
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: HOUR_TITLE_WIDTH,
-                                        alignment: Alignment.topRight,
-                                        child: Text('${idx}시'),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                        SizedBox(height: CoupleStyle.bottomActionHeight),
-                      ],
-                    ),
-                  ),
-                  ...list.map((e) {
-                    final startHour =
-                        e.startDate.hour + (e.startDate.minute / 60);
-                    final endHour = e.endDate.hour + (e.endDate.minute / 60);
-
-                    final top = startHour * HOUR_CELL_HEIGHT;
-                    final height = (endHour - startHour) * HOUR_CELL_HEIGHT;
-
-                    return Positioned(
-                      top: top,
-                      left: HOUR_TITLE_WIDTH,
-                      child: Container(
-                        width: ScreenUtil().screenWidth - HOUR_TITLE_WIDTH,
-                        height: height,
-                        padding: EdgeInsets.symmetric(vertical: 4.toHeight),
-                        child:
-                            HomeScheduleListItem(schedule: e, height: height),
-                      ),
-                    );
-                  }).toList(),
+                  _buildTimeLineArea(),
+                  ..._buildScheduleItemList(list),
                   _curTimeLine(),
                 ],
               ),
@@ -149,6 +97,63 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       },
+    );
+  }
+
+  List<Widget> _buildScheduleItemList(List<ScheduleModel> list) {
+    return list.map((e) {
+      final startHour = e.startDate.hour + (e.startDate.minute / 60);
+      final endHour = e.endDate.hour + (e.endDate.minute / 60);
+
+      final top = startHour * HOUR_CELL_HEIGHT;
+      final height = (endHour - startHour) * HOUR_CELL_HEIGHT;
+
+      return Positioned(
+        top: top,
+        left: HOUR_TITLE_WIDTH,
+        child: Container(
+          width: ScreenUtil().screenWidth - HOUR_TITLE_WIDTH,
+          height: height,
+          padding: EdgeInsets.symmetric(vertical: 4.toHeight),
+          child: HomeScheduleListItem(schedule: e, height: height),
+        ),
+      );
+    }).toList();
+  }
+
+  Widget _buildTimeLineArea() {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...List.generate(
+              24,
+              (int idx) => Container(
+                    width: double.infinity,
+                    height: HOUR_CELL_HEIGHT,
+                    alignment: Alignment.topRight,
+                    margin: EdgeInsets.symmetric(horizontal: 6.toWidth),
+                    decoration: BoxDecoration(
+                      color: [
+                        CoupleStyle.gray030,
+                        CoupleStyle.white,
+                      ][idx % 2],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: HOUR_TITLE_WIDTH,
+                          alignment: Alignment.topRight,
+                          child: Text('${idx}시'),
+                        ),
+                      ],
+                    ),
+                  )),
+          SizedBox(height: CoupleStyle.bottomActionHeight),
+        ],
+      ),
     );
   }
 

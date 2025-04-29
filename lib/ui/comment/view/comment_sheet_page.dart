@@ -1,7 +1,6 @@
 import 'package:couple_calendar/ui/comment/view_model/comment_sheet_view_model.dart';
 import 'package:couple_calendar/ui/common/components/drag_to_dispose/drag_to_dispose.dart';
 import 'package:couple_calendar/util/couple_util.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
