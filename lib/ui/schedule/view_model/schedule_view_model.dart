@@ -1,4 +1,5 @@
 import 'package:couple_calendar/router/couple_router.dart';
+import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
 import 'package:couple_calendar/ui/schedule/widgets/day_cell_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,9 @@ class ScheduleViewModel extends ChangeNotifier {
   Future<void> _showDayCellBottomSheet(DateTime date, int index) async {
     final int year = _baseYear + (index ~/ 12);
     final int month = (index % 12) + 1;
-    final String key = '$year${month.toString().padLeft(2, '0')}';
+    // final String key = '$year${month.toString().padLeft(2, '0')}';
+    final yearKey = year.toString();
+    final monthKey = month.toString().padLeft(2, '0');
     final targetDateStr =
         CoupleUtil().dateTimeToString(DateTime(year, month, date.day));
 
@@ -64,7 +67,8 @@ class ScheduleViewModel extends ChangeNotifier {
         builder: (context) {
           return Consumer<ScheduleProvider>(
             builder: (_, prov, __) {
-              final scheduleList = prov.scheduleData[key] ?? [];
+              final scheduleList =
+                  prov.scheduleDataV2[yearKey]?[monthKey] ?? <ScheduleModel>[];
 
               final list = scheduleList.where((e) {
                 return CoupleUtil().dateTimeToString(e.startDate) ==
@@ -149,7 +153,7 @@ class ScheduleViewModel extends ChangeNotifier {
 
     if (shouldFetch) {
       Provider.of<ScheduleProvider>(state.context, listen: false)
-          .getMySchedule(year: _curYear);
+          .getMySchedule(year: _curYear, isRefresh: false);
     }
   }
 }

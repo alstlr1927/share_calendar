@@ -68,8 +68,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer2<ScheduleProvider, HomeViewModel>(
       builder: (_, prov, vm, __) {
         final today = DateTime(vm.today.year, vm.today.month, vm.today.day);
-        final key = '${today.year}' + ('${today.month}').padLeft(2, '0');
-        final curMonthList = prov.scheduleData[key] ?? [];
+        // final key = '${today.year}' + ('${today.month}').padLeft(2, '0');
+        final yearKey = today.year.toString();
+        final monthKey = today.month.toString().padLeft(2, '0');
+        final curMonthList =
+            prov.scheduleDataV2[yearKey]?[monthKey] ?? <ScheduleModel>[];
+
         final list = curMonthList.where((e) {
           final data = CoupleUtil().dateTimeToString(e.startDate);
           final target = CoupleUtil().dateTimeToString(today);

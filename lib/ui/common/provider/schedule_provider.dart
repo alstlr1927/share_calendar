@@ -1,31 +1,43 @@
+import 'package:couple_calendar/ui/common/components/logger/couple_logger.dart';
 import 'package:couple_calendar/ui/schedule/model/schedule_model.dart';
 import 'package:couple_calendar/ui/schedule/repository/schedule_repository.dart';
-import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleProvider extends ChangeNotifier {
-  //
-  Map<String, List<ScheduleModel>> scheduleData = {};
+  Map<String, Map<String, List<ScheduleModel>>> scheduleDataV2 = {};
 
   Future<void> getMySchedule({
     required int year,
+    bool isRefresh = true,
   }) async {
-    debugPrint('get data : $year');
+    CoupleLog().d('Get $year Schedule Data');
+    // refresh일때만 데이터 clear
+    if (isRefresh) {
+      scheduleDataV2.clear();
+    }
+
+    if (scheduleDataV2.containsKey('$year')) {
+      CoupleLog().d('$year data is already exist');
+      return;
+    }
 
     final docs = await ScheduleRepository().getMyScheduleByYear(year: year);
-    scheduleData = {};
+
     if (docs.isNotEmpty) {
       final list = docs.map((e) => ScheduleModel.fromJson(e.data())).toList();
 
       for (var item in list) {
-        final key = CoupleUtil()
-            .dateTimeToString(item.startDate, division: '', dayExclude: true);
+        final yearKey = item.startDate.year.toString();
+        final monthKey = item.startDate.month.toString().padLeft(2, '0');
 
-        final old = scheduleData[key] ?? <ScheduleModel>[];
-        scheduleData[key] = [...old, item];
+        if (!scheduleDataV2.containsKey(yearKey)) {
+          scheduleDataV2[yearKey] = {};
+        }
+        final oldV2 = scheduleDataV2[yearKey]![monthKey] ?? <ScheduleModel>[];
+        scheduleDataV2[yearKey]![monthKey] = [...oldV2, item];
       }
 
-      debugPrint('scheduleData : ${scheduleData}');
+      CoupleLog().d('scheduleDataV2 : ${scheduleDataV2}');
     }
     notifyListeners();
   }
