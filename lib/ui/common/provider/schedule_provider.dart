@@ -13,7 +13,7 @@ class ScheduleProvider extends ChangeNotifier {
     CoupleLog().d('Get $year Schedule Data');
     // refresh일때만 데이터 clear
     if (isRefresh) {
-      scheduleDataV2.clear();
+      scheduleDataV2 = Map.from({});
     }
 
     if (scheduleDataV2.containsKey('$year')) {

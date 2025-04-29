@@ -205,7 +205,7 @@ class ScheduleDetailViewModel extends ChangeNotifier {
       state.context,
       SheetRoute(
         builder: (context) {
-          return CommentSheetPage();
+          return CommentSheetPage(scheduleId: schedule.id);
         },
       ),
     );

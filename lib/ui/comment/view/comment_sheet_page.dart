@@ -1,4 +1,6 @@
+import 'package:couple_calendar/ui/comment/model/comment_model.dart';
 import 'package:couple_calendar/ui/comment/view_model/comment_sheet_view_model.dart';
+import 'package:couple_calendar/ui/comment/widgets/comment_item.dart';
 import 'package:couple_calendar/ui/common/components/drag_to_dispose/drag_to_dispose.dart';
 import 'package:couple_calendar/util/couple_util.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,12 @@ import '../../common/components/couple_text_field/couple_text_field.dart';
 import '../../common/components/custom_button/couple_button.dart';
 
 class CommentSheetPage extends StatefulWidget {
-  const CommentSheetPage({super.key});
+  final String scheduleId;
+
+  const CommentSheetPage({
+    super.key,
+    required this.scheduleId,
+  });
 
   @override
   State<CommentSheetPage> createState() => _CommentSheetPageState();
@@ -23,7 +30,7 @@ class _CommentSheetPageState extends State<CommentSheetPage> {
   @override
   void initState() {
     super.initState();
-    viewModel = CommentSheetViewModel(this);
+    viewModel = CommentSheetViewModel(this, scheduleId: widget.scheduleId);
   }
 
   @override
@@ -43,7 +50,8 @@ class _CommentSheetPageState extends State<CommentSheetPage> {
               MediaQuery.of(context).viewInsets.bottom,
           dragEnable: true,
           backdropTapClosesPanel: true,
-          panelBuilder: (scrollController, ac) {
+          panelBuilder: (sc, ac) {
+            sc.addListener(() => viewModel.scrollListener(sc.position));
             return Material(
               color: Colors.transparent,
               child: GestureDetector(
@@ -62,18 +70,26 @@ class _CommentSheetPageState extends State<CommentSheetPage> {
                         _handle(),
                         Expanded(
                           child: SingleChildScrollView(
-                            controller: scrollController,
-                            child: Column(
-                              children: [
-                                ...List.generate(
-                                  20,
-                                  (e) => Container(
-                                    width: double.infinity,
-                                    height: 40.toHeight,
-                                    color: Colors.amber,
-                                  ) as Widget,
-                                ).superJoin(SizedBox(height: 8)),
-                              ],
+                            controller: sc,
+                            child: Selector<CommentSheetViewModel,
+                                List<CommentModel>>(
+                              selector: (_, vm) => vm.commentList,
+                              builder: (_, list, __) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.toWidth,
+                                    vertical: 8.toHeight,
+                                  ),
+                                  child: Column(
+                                    children: list
+                                        .map((comment) =>
+                                            CommentItem(comment: comment)
+                                                as Widget)
+                                        .superJoin(SizedBox(height: 6.toHeight))
+                                        .toList(),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -110,7 +126,7 @@ class _CommentSheetPageState extends State<CommentSheetPage> {
           ),
           SizedBox(width: 10.toWidth),
           CoupleButton(
-            onPressed: () {},
+            onPressed: viewModel.onClickSendComment,
             option: CoupleButtonOption.text(
               text: '전송',
               theme: CoupleButtonTextTheme.subBlue,

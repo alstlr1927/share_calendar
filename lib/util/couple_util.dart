@@ -61,6 +61,22 @@ class CoupleUtil {
       return '$hours시간 $minutes분';
   }
 
+  String getLeaveTime({
+    required DateTime date,
+  }) {
+    final now = DateTime.now();
+
+    final diff = date.difference(now);
+    final totalMinutes = diff.inMinutes;
+    final hours = totalMinutes ~/ 60;
+    final minutes = totalMinutes % 60;
+
+    if (totalMinutes < 60) {
+      return '$minutes분';
+    }
+    return '$hours시간';
+  }
+
   ScheduleState getScheduleState({
     required DateTime startDate,
     required DateTime endDate,
